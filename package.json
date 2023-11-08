@@ -20,13 +20,26 @@
     "submit:ios": "eas submit --platform ios --latest",
     "submit:android": "eas submit --platform android --latest",
     "submit:hotfix": "eas update",
-    "api": "eval $(grep '^SUPABASE_URL' .env.local) && eval $(grep '^SUPABASE_API_KEY' .env.local) && npx openapi-typescript@5.4.0 ${SUPABASE_URL}/rest/v1/?apikey=${SUPABASE_API_KEY} --output types/supabase.ts"  
+    "api": "eval $(grep '^SUPABASE_URL' .env.local) && eval $(grep '^SUPABASE_API_KEY' .env.local) && npx openapi-typescript@5.4.0 ${SUPABASE_URL}/rest/v1/?apikey=${SUPABASE_API_KEY} --output types/supabase.ts"
+  },
+  "ts-standard": {
+    "ignore": [
+      "next-env.d.ts",
+      "types/*"
+    ],
+    "globals": [
+      "expect",
+      "it"
+    ]
   },
   "dependencies": {
     "expo": "~49.0.15",
+    "expo-2d-context": "^0.0.3",
+    "expo-gl": "^13.2.0",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
-    "react-native": "0.72.6"
+    "react-native": "0.72.6",
+    "ts-standard": "^12.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
