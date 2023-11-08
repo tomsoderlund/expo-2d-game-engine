@@ -1,12 +1,26 @@
 {
   "name": "2d-game",
-  "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "private": true,
   "scripts": {
+    "upgrade-expo": "npx expo-doctor; bun install; echo bun run api",
+    "dev": "bun run start",
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "eject": "expo eject",
+    "test": "echo 'Running Standard.js and Jasmine unit tests...\n' && bun run lint && bun run unit",
+    "unit": "babel-node spec/run.js",
+    "lint": "ts-standard",
+    "fix": "ts-standard --fix",
+    "news": "mkdir -p components/screens/New; cp components/screens/PlaceHolder.tsx components/screens/New.tsx; echo \"Now rename file 'components/screens/New.tsx' to whatever you want.\"",
+    "newc": "cp components/common/Centered.tsx components/common/New.tsx; echo \"Now rename/move 'components/common/New.tsx' to whatever you want.\"",
+    "newn": "cp components/navigators/OnboardingStackNavigator.tsx components/navigators/NewStackNavigator.tsx; echo \"Now rename/move 'components/navigators/NewStackNavigator.tsx' to whatever you want.\"",
+    "pub": "expo publish",
+    "build:ios": "eas build --platform ios",
+    "build:android": "eas build --platform android",
+    "submit:ios": "eas submit --platform ios --latest",
+    "submit:android": "eas submit --platform android --latest",
+    "submit:hotfix": "eas update",
+    "api": "eval $(grep '^SUPABASE_URL' .env.local) && eval $(grep '^SUPABASE_API_KEY' .env.local) && npx openapi-typescript@5.4.0 ${SUPABASE_URL}/rest/v1/?apikey=${SUPABASE_API_KEY} --output types/supabase.ts"  
   },
   "dependencies": {
     "expo": "~49.0.15",
@@ -18,6 +32,5 @@
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
     "typescript": "^5.1.3"
-  },
-  "private": true
+  }
 }
