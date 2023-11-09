@@ -11,7 +11,7 @@ export default class App extends React.Component {
     )
   }
 
-  _sketch = (p): void => {
+  _sketch = (p: any): void => {
     p.setup = () => {
       p.strokeWeight(7)
     }
