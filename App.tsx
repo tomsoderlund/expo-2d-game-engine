@@ -1,10 +1,40 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 import { GestureResponderEvent } from 'react-native'
 import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
 const App = (): React.ReactElement => {
   const ctxRef = useRef<Expo2DContext | null>(null)
+
+  const frameTimer = useRef<number>(0)
+  const frameValue = useRef<number>(0)
+  const frameHandle = useRef<number | null>()
+  const frameTicker = useCallback((time: number) => {
+    if (ctxRef.current != null) {
+      frameValue.current += 2
+      const pos = frameValue.current * 1
+      const ctx = ctxRef.current
+      ctx.fillStyle = 'limegreen'
+      ctx.beginPath()
+      ctx.arc(pos, pos, 8, 0, 2 * Math.PI)
+      ctx.fill()
+      ctx.flush()
+      frameTimer.current = time
+    }
+    frameHandle.current = requestAnimationFrame(frameTicker)
+  }, [])
+
+  // const handleToggleAnimation =
+  useEffect(() => {
+    frameHandle.current = requestAnimationFrame(frameTicker)
+    // setAnimating(!animating)
+    // if (!animating) {
+    //   frameHandle.current = requestAnimationFrame(frameTicker)
+    // } else {
+    //   cancelAnimationFrame(frameHandle.current as number)
+    //   frameHandle.current = null
+    // }
+  }, [])
 
   const handleTouchPress = (e: GestureResponderEvent): void => {
     console.log('handleTouchPress', e.nativeEvent.locationX, e.nativeEvent.locationY)
