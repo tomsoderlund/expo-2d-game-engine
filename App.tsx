@@ -1,17 +1,8 @@
 import React from 'react'
 import { ProcessingView } from 'expo-processing'
 
-export default class App extends React.Component {
-  render () {
-    return (
-      <ProcessingView
-        style={{ flex: 1 }}
-        sketch={this._sketch}
-      />
-    )
-  }
-
-  _sketch = (p): void => {
+const App = (): React.ReactElement => {
+  const sketch = (p: any): void => {
     p.setup = () => {
       p.strokeWeight(7)
     }
@@ -53,4 +44,13 @@ export default class App extends React.Component {
       )
     }
   }
+
+  return (
+    <ProcessingView
+      style={{ flex: 1 }}
+      sketch={sketch}
+    />
+  )
 }
+
+export default App
