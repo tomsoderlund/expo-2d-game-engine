@@ -5,7 +5,10 @@ import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 export default class App extends React.Component {
   render (): React.ReactElement {
     return (
-      <GLView style={{ flex: 1 }} onContextCreate={this.handleGLContextCreate} />
+      <GLView
+        style={{ flex: 1 }}
+        onContextCreate={this.handleGLContextCreate}
+      />
     )
   }
 
