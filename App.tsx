@@ -1,3 +1,5 @@
+// See https://github.com/expo/expo/issues/11267#issuecomment-873630818 for inspiration
+
 import React, { useRef, useCallback, useEffect } from 'react'
 import { GestureResponderEvent } from 'react-native'
 import { GLView } from 'expo-gl'
@@ -10,15 +12,9 @@ const App = (): React.ReactElement => {
   const frameValue = useRef<number>(0)
   const frameHandle = useRef<number | null>()
   const frameTicker = useCallback((time: number) => {
-    if (ctxRef.current != null) {
-      frameValue.current += 2
-      const pos = frameValue.current * 1
-      const ctx = ctxRef.current
-      ctx.fillStyle = 'limegreen'
-      ctx.beginPath()
-      ctx.arc(pos, pos, 8, 0, 2 * Math.PI)
-      ctx.fill()
-      ctx.flush()
+    if (ctxRef.current !== null) {
+      frameValue.current += 1
+      draw()
       frameTimer.current = time
     }
     frameHandle.current = requestAnimationFrame(frameTicker)
@@ -51,39 +47,46 @@ const App = (): React.ReactElement => {
   const handleSetup = useCallback((gl: WebGLRenderingContext) => {
     const ctx = new Expo2DContext(gl as unknown as number, undefined as unknown as Expo2dContextOptions)
     ctxRef.current = ctx
-    draw(ctx)
+    ctx.translate(50, 200)
+    const scale = 3
+    ctx.scale(scale, scale)
+    // draw()
   }, [])
 
-  const draw = (ctx: Expo2DContext): void => {
-    ctx.translate(50, 200)
-    ctx.scale(4, 4)
+  const draw = (): void => {
+    const pX = frameValue.current * 1
+    const pY = frameValue.current * 1
+    // console.log('pX:', pX, frameTimer.current);
+    const ctx = ctxRef.current as Expo2DContext
+    // Init
+    ctx.clearRect(0, 0, ctx.width, ctx.height)
     // Head
     ctx.fillStyle = 'grey'
-    ctx.fillRect(20, 40, 100, 100)
+    ctx.fillRect(pX + 20, pY + 40, 100, 100)
     // Teeth
     ctx.fillStyle = 'white'
-    ctx.fillRect(30, 100, 20, 30)
-    ctx.fillRect(60, 100, 20, 30)
-    ctx.fillRect(90, 100, 20, 30)
+    ctx.fillRect(pX + 30, pY + 100, 20, 30)
+    ctx.fillRect(pX + 60, pY + 100, 20, 30)
+    ctx.fillRect(pX + 90, pY + 100, 20, 30)
     // Eyes
     ctx.beginPath()
-    ctx.arc(50, 70, 18, 0, 2 * Math.PI)
-    ctx.arc(90, 70, 18, 0, 2 * Math.PI)
+    ctx.arc(pX + 50, pY + 70, 18, 0, 2 * Math.PI)
+    ctx.arc(pX + 90, pY + 70, 18, 0, 2 * Math.PI)
     ctx.fill()
     // Eye pupils
     ctx.fillStyle = 'dodgerblue'
     ctx.beginPath()
-    ctx.arc(50, 70, 8, 0, 2 * Math.PI)
-    ctx.arc(90, 70, 8, 0, 2 * Math.PI)
+    ctx.arc(pX + 50, pY + 70, 8, 0, 2 * Math.PI)
+    ctx.arc(pX + 90, pY + 70, 8, 0, 2 * Math.PI)
     ctx.fill()
     // Antenna
     ctx.strokeStyle = 'black'
     ctx.beginPath()
-    ctx.moveTo(70, 40)
-    ctx.lineTo(70, 30)
-    ctx.arc(70, 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
+    ctx.moveTo(pX + 70, pY + 40)
+    ctx.lineTo(pX + 70, pY + 30)
+    ctx.arc(pX + 70, pY + 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
     ctx.stroke()
-
+    // Send drawing commands to GPU for rendering
     ctx.flush()
   }
 
