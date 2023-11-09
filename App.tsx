@@ -43,6 +43,9 @@ const App = (): React.ReactElement => {
 
   const handleTouchMove = (e: GestureResponderEvent): void => {
     console.log('handleTouchMove', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
+    const posX = pixelRatio * e.nativeEvent.locationX
+    const ctx = ctxRef.current as Expo2DContext
+    frameValue.current = posX / ctx.width * 100
   }
 
   const handleSetup = useCallback((gl: WebGLRenderingContext) => {
