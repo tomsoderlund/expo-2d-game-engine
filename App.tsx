@@ -59,6 +59,7 @@ const App = (): React.ReactElement => {
     // console.log('pX:', pX, frameTimer.current);
     const ctx = ctxRef.current as Expo2DContext
     // Init
+    ctx.save()
     ctx.clearRect(0, 0, ctx.width, ctx.height)
     // Head
     ctx.fillStyle = 'grey'
@@ -87,6 +88,7 @@ const App = (): React.ReactElement => {
     ctx.arc(pX + 70, pY + 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
     ctx.stroke()
     // Send drawing commands to GPU for rendering
+    ctx.restore()
     ctx.flush()
   }
 
