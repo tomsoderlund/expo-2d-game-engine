@@ -1,6 +1,6 @@
 import React from 'react'
 import { GLView } from 'expo-gl'
-import Expo2DContext from 'expo-2d-context'
+import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
 export default class App extends React.Component {
   render (): React.ReactElement {
@@ -9,8 +9,8 @@ export default class App extends React.Component {
     )
   }
 
-  handleGLContextCreate = (gl: ExpoWebGLRenderingContext): void => {
-    const ctx = new Expo2DContext(gl)
+  handleGLContextCreate = (gl: WebGLRenderingContext): void => {
+    const ctx = new Expo2DContext(gl as unknown as number, undefined as unknown as Expo2dContextOptions)
     ctx.translate(50, 200)
     ctx.scale(4, 4)
     // Head
