@@ -1,7 +1,7 @@
 export default class HaromSketch implements Sketch {
-  p: any
+  p: Processing
 
-  constructor (p: any) {
+  constructor (p: Processing) {
     this.p = p
   }
 
