@@ -11,7 +11,7 @@
     "unit": "babel-node spec/run.js",
     "lint": "ts-standard",
     "fix": "ts-standard --fix",
-    "news": "mkdir -p components/screens/New; cp components/screens/PlaceHolder.tsx components/screens/New.tsx; echo \"Now rename file 'components/screens/New.tsx' to whatever you want.\"",
+    "news": "cp sketches/HaromSketch.ts sketches/New.ts; echo \"Now rename file 'sketches/New.ts' to whatever you want.\"",
     "newc": "cp components/common/Centered.tsx components/common/New.tsx; echo \"Now rename/move 'components/common/New.tsx' to whatever you want.\"",
     "newn": "cp components/navigators/OnboardingStackNavigator.tsx components/navigators/NewStackNavigator.tsx; echo \"Now rename/move 'components/navigators/NewStackNavigator.tsx' to whatever you want.\"",
     "pub": "expo publish",
