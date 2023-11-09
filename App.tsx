@@ -1,4 +1,5 @@
 import React from 'react'
+import { GestureResponderEvent } from 'react-native'
 import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
@@ -8,8 +9,24 @@ export default class App extends React.Component {
       <GLView
         style={{ flex: 1 }}
         onContextCreate={this.handleGLContextCreate}
+        onStartShouldSetResponder={() => true}
+        onResponderGrant={this.handleTouchPress}
+        onResponderRelease={this.handleTouchRelease}
+        onResponderMove={this.handleTouchMove}
       />
     )
+  }
+
+  handleTouchPress = (e: GestureResponderEvent): void => {
+    console.log('handleTouchPress', e.nativeEvent.locationX, e.nativeEvent.locationY)
+  }
+
+  handleTouchRelease = (e: GestureResponderEvent): void => {
+    console.log('handleTouchRelease', e.nativeEvent.locationX, e.nativeEvent.locationY)
+  }
+
+  handleTouchMove = (e: GestureResponderEvent): void => {
+    console.log('handleTouchMove', e.nativeEvent.locationX, e.nativeEvent.locationY)
   }
 
   handleGLContextCreate = (gl: WebGLRenderingContext): void => {
