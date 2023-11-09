@@ -1,12 +1,13 @@
 // See https://github.com/expo/expo/issues/11267#issuecomment-873630818 for inspiration
 
 import React, { useRef, useCallback, useEffect } from 'react'
-import { GestureResponderEvent } from 'react-native'
+import { GestureResponderEvent, PixelRatio } from 'react-native'
 import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
 const App = (): React.ReactElement => {
   const ctxRef = useRef<Expo2DContext | null>(null)
+  const pixelRatio = PixelRatio.get()
 
   const frameTimer = useRef<number>(0)
   const frameValue = useRef<number>(0)
@@ -33,15 +34,15 @@ const App = (): React.ReactElement => {
   }, [])
 
   const handleTouchPress = (e: GestureResponderEvent): void => {
-    console.log('handleTouchPress', e.nativeEvent.locationX, e.nativeEvent.locationY)
+    console.log('handleTouchPress', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
   }
 
   const handleTouchRelease = (e: GestureResponderEvent): void => {
-    console.log('handleTouchRelease', e.nativeEvent.locationX, e.nativeEvent.locationY)
+    console.log('handleTouchRelease', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
   }
 
   const handleTouchMove = (e: GestureResponderEvent): void => {
-    console.log('handleTouchMove', e.nativeEvent.locationX, e.nativeEvent.locationY)
+    console.log('handleTouchMove', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
   }
 
   const handleSetup = useCallback((gl: WebGLRenderingContext) => {
@@ -50,6 +51,7 @@ const App = (): React.ReactElement => {
     ctx.translate(50, 200)
     const scale = 3
     ctx.scale(scale, scale)
+    console.log('Canvas size:', [ctx.width, ctx.height])
     // draw()
   }, [])
 
