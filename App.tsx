@@ -1,32 +1,44 @@
 import React from 'react'
-import { ProcessingView } from 'expo-processing'
-
-// import HaromSketch from './sketches/HaromSketch'
-import Touch from './sketches/Touch'
+import { GLView } from 'expo-gl'
+import Expo2DContext from 'expo-2d-context'
 
 export default class App extends React.Component {
-  _sketch = (p: Processing): void => {
-    const theSketch = new Touch(p)
-    p.setup = theSketch.setup.bind(theSketch)
-    p.draw = theSketch.draw.bind(theSketch)
-
-    p.touchStart = () => console.log('touchStart')
-    p.keyPressed = () => console.log('keyPressed')
-    p.keyReleased = () => console.log('keyReleased')
-    p.keyTyped = () => console.log('keyTyped')
-    p.mousePressed = () => console.log('mousePressed')
-    p.mouseReleased = () => console.log('mouseReleased')
-    p.mouseClicked = () => console.log('mouseClicked')
-    p.mouseDragged = () => console.log('mouseDragged')
-    p.mouseMoved = () => console.log('mouseMoved')
-  }
-
   render (): React.ReactElement {
     return (
-      <ProcessingView
-        style={{ flex: 1 }}
-        sketch={this._sketch}
-      />
+      <GLView style={{ flex: 1 }} onContextCreate={this.handleGLContextCreate} />
     )
+  }
+
+  handleGLContextCreate = (gl: ExpoWebGLRenderingContext): void => {
+    const ctx = new Expo2DContext(gl)
+    ctx.translate(50, 200)
+    ctx.scale(4, 4)
+    // Head
+    ctx.fillStyle = 'grey'
+    ctx.fillRect(20, 40, 100, 100)
+    // Teeth
+    ctx.fillStyle = 'white'
+    ctx.fillRect(30, 100, 20, 30)
+    ctx.fillRect(60, 100, 20, 30)
+    ctx.fillRect(90, 100, 20, 30)
+    // Eyes
+    ctx.beginPath()
+    ctx.arc(50, 70, 18, 0, 2 * Math.PI)
+    ctx.arc(90, 70, 18, 0, 2 * Math.PI)
+    ctx.fill()
+    // Eye pupils
+    ctx.fillStyle = 'dodgerblue'
+    ctx.beginPath()
+    ctx.arc(50, 70, 8, 0, 2 * Math.PI)
+    ctx.arc(90, 70, 8, 0, 2 * Math.PI)
+    ctx.fill()
+    // Antenna
+    ctx.strokeStyle = 'black'
+    ctx.beginPath()
+    ctx.moveTo(70, 40)
+    ctx.lineTo(70, 30)
+    ctx.arc(70, 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
+    ctx.stroke()
+    ctx.flush()
   }
 }
