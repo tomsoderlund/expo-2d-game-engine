@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "2d-game",
-    "slug": "2d-game",
+    "name": "expo-2d-game-engine",
+    "slug": "expo-2d-game-engine",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

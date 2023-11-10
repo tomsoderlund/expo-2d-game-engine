@@ -1,5 +1,5 @@
 {
-  "name": "2d-game",
+  "name": "expo-2d-game-engine",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
