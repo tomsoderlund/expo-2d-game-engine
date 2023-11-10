@@ -36,9 +36,7 @@
     "expo": "~49.0.15",
     "expo-2d-context": "^0.0.3",
     "expo-gl": "^13.2.0",
-    "expo-processing": "^2.3.2",
     "expo-status-bar": "~1.6.0",
-    "processing-js": "^1.6.6",
     "react": "18.2.0",
     "react-native": "0.72.6",
     "ts-standard": "^12.0.2"
