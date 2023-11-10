@@ -45,7 +45,10 @@ const App = (): React.ReactElement => {
     console.log('handleTouchMove', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
     const posX = pixelRatio * e.nativeEvent.locationX
     const ctx = ctxRef.current as Expo2DContext
-    frameValue.current = posX / ctx.width * 100
+    // frameValue.current = posX / ctx.width * 100
+    const scale = posX / ctx.width * 4
+    ctx.setTransform(1, 0, 0, 1, 0, 0) // Reset transform
+    ctx.scale(scale, scale)
   }
 
   const handleSetup = useCallback((gl: WebGLRenderingContext) => {
@@ -54,8 +57,6 @@ const App = (): React.ReactElement => {
     ctx.translate(50, 200)
     const scale = 3
     ctx.scale(scale, scale)
-    console.log('Canvas size:', [ctx.width, ctx.height])
-    // draw()
   }, [])
 
   const draw = (): void => {
