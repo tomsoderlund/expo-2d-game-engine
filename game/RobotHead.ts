@@ -55,7 +55,7 @@ export default class RobotHead extends GameObject {
     this.ctx.arc(pX + 70, pY + 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
     this.ctx.stroke()
 
-    if (this.imageData != null) this.ctx.putImageData(this.imageData, 100, 100)
+    if (this.imageData !== null) this.ctx.putImageData(this.imageData, 100, 100)
   }
 
   handleTouchPress (event: GestureResponderEvent): void {
