@@ -52,6 +52,7 @@ const GameCanvas = (): React.ReactElement => {
     const scale = 3
     ctx.scale(scale, scale)
     gameObjects.push(new RobotHead(ctx))
+    gameObjects.forEach((gameObject) => gameObject.setup())
   }, [])
 
   const update = (time: number): void => {
