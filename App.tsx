@@ -14,9 +14,8 @@ const App = (): React.ReactElement => {
   const frameHandle = useRef<number | null>()
   const frameTicker = useCallback((time: number) => {
     if (ctxRef.current !== null) {
-      frameValue.current += 1
+      update(time)
       draw()
-      frameTimer.current = time
     }
     frameHandle.current = requestAnimationFrame(frameTicker)
   }, [])
@@ -58,6 +57,11 @@ const App = (): React.ReactElement => {
     const scale = 3
     ctx.scale(scale, scale)
   }, [])
+
+  const update = (time: number): void => {
+    frameValue.current += 1
+    frameTimer.current = time
+  }
 
   const draw = (): void => {
     const pX = frameValue.current * 1
