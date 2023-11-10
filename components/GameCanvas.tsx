@@ -23,16 +23,8 @@ const GameCanvas = (): React.ReactElement => {
     frameHandle.current = requestAnimationFrame(processNextFrame)
   }, [])
 
-  // const handleToggleAnimation =
   useEffect(() => {
     frameHandle.current = requestAnimationFrame(processNextFrame)
-    // setAnimating(!animating)
-    // if (!animating) {
-    //   frameHandle.current = requestAnimationFrame(processNextFrame)
-    // } else {
-    //   cancelAnimationFrame(frameHandle.current as number)
-    //   frameHandle.current = null
-    // }
   }, [])
 
   const handleTouchPress = (e: GestureResponderEvent): void => {
