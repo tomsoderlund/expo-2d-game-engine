@@ -29,17 +29,17 @@ const GameCanvas = (): React.ReactElement => {
 
   const handleTouchPress = (event: GestureResponderEvent): void => {
     console.log('handleTouchPress', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
-    gameObjects.forEach((gameObject) => void gameObject.handleTouchPress(event))
+    gameObjects.forEach((gameObject) => { gameObject.handleTouchPress(event) })
   }
 
   const handleTouchRelease = (event: GestureResponderEvent): void => {
     console.log('handleTouchRelease', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
-    gameObjects.forEach((gameObject) => void gameObject.handleTouchRelease(event))
+    gameObjects.forEach((gameObject) => { gameObject.handleTouchRelease(event) })
   }
 
   const handleTouchMove = (event: GestureResponderEvent): void => {
     console.log('handleTouchMove', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
-    gameObjects.forEach((gameObject) => void gameObject.handleTouchMove(event))
+    gameObjects.forEach((gameObject) => { gameObject.handleTouchMove(event) })
     const posX = pixelRatio * event.nativeEvent.locationX
     const ctx = ctxRef.current as Expo2DContext
     // frameCounter.current = posX / ctx.width * 100
@@ -55,7 +55,7 @@ const GameCanvas = (): React.ReactElement => {
     const scale = 3
     ctx.scale(scale, scale)
     gameObjects.push(new RobotHead(ctx))
-    gameObjects.forEach((gameObject) => void gameObject.setup())
+    gameObjects.forEach((gameObject) => { void gameObject.setup() })
   }, [])
 
   const update = (time: number): void => {
