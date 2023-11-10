@@ -11,16 +11,12 @@
     "unit": "babel-node spec/run.js",
     "lint": "ts-standard",
     "fix": "ts-standard --fix",
-    "news": "cp sketches/HaromSketch.ts sketches/New.ts; echo \"Now rename file 'sketches/New.ts' to whatever you want.\"",
-    "newc": "cp components/common/Centered.tsx components/common/New.tsx; echo \"Now rename/move 'components/common/New.tsx' to whatever you want.\"",
-    "newn": "cp components/navigators/OnboardingStackNavigator.tsx components/navigators/NewStackNavigator.tsx; echo \"Now rename/move 'components/navigators/NewStackNavigator.tsx' to whatever you want.\"",
     "pub": "expo publish",
-    "build:ios": "eas build --platform ios",
-    "build:android": "eas build --platform android",
+    "build:ios": "eas build --profile production --platform ios",
+    "build:android": "eas build --profile production --platform android",
     "submit:ios": "eas submit --platform ios --latest",
     "submit:android": "eas submit --platform android --latest",
-    "submit:hotfix": "eas update",
-    "api": "eval $(grep '^SUPABASE_URL' .env.local) && eval $(grep '^SUPABASE_API_KEY' .env.local) && npx openapi-typescript@5.4.0 ${SUPABASE_URL}/rest/v1/?apikey=${SUPABASE_API_KEY} --output types/supabase.ts"
+    "submit:hotfix": "eas update"
   },
   "ts-standard": {
     "ignore": [
