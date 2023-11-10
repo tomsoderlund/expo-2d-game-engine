@@ -1,11 +1,17 @@
+import { GestureResponderEvent } from 'react-native'
 import { ImageData } from 'expo-2d-context'
+import { Audio } from 'expo-av'
 
 import GameObject from './GameObject'
 
 export default class RobotHead extends GameObject {
   imageData?: ImageData
+  laserSound?: Audio.Sound
 
-  setup (): void {
+  async setup (): Promise<void> {
+    const { sound } = await Audio.Sound.createAsync(require('../assets/sounds/laser.mp3')) // eslint-disable-line @typescript-eslint/no-var-requires
+    this.laserSound = sound
+    // ImageData (pixels)
     this.imageData = this.ctx.createImageData(100, 100)
     // Iterate through every pixel
     for (let i = 0; i < this.imageData.data.length; i += 4) {
@@ -15,6 +21,9 @@ export default class RobotHead extends GameObject {
       this.imageData.data[i + 2] = 150 - n // B value
       this.imageData.data[i + 3] = 255 // Alpha value
     }
+  }
+
+  update (time: number): void {
   }
 
   draw (frameNr: number): void {
@@ -47,6 +56,11 @@ export default class RobotHead extends GameObject {
     this.ctx.arc(pX + 70, pY + 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
     this.ctx.stroke()
 
-    this.ctx.putImageData(this.imageData, 100, 100)
+    if (this.imageData != null) this.ctx.putImageData(this.imageData, 100, 100)
+  }
+
+  handleTouchPress (event: GestureResponderEvent): void {
+    void this.laserSound?.playAsync()
+    void this.laserSound?.setPositionAsync(0)
   }
 }

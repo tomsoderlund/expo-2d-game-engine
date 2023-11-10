@@ -27,17 +27,20 @@ const GameCanvas = (): React.ReactElement => {
     frameHandle.current = requestAnimationFrame(processNextFrame)
   }, [])
 
-  const handleTouchPress = (e: GestureResponderEvent): void => {
-    console.log('handleTouchPress', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
+  const handleTouchPress = (event: GestureResponderEvent): void => {
+    console.log('handleTouchPress', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
+    gameObjects.forEach((gameObject) => void gameObject.handleTouchPress(event))
   }
 
-  const handleTouchRelease = (e: GestureResponderEvent): void => {
-    console.log('handleTouchRelease', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
+  const handleTouchRelease = (event: GestureResponderEvent): void => {
+    console.log('handleTouchRelease', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
+    gameObjects.forEach((gameObject) => void gameObject.handleTouchRelease(event))
   }
 
-  const handleTouchMove = (e: GestureResponderEvent): void => {
-    console.log('handleTouchMove', Math.round(pixelRatio * e.nativeEvent.locationX), Math.round(pixelRatio * e.nativeEvent.locationY))
-    const posX = pixelRatio * e.nativeEvent.locationX
+  const handleTouchMove = (event: GestureResponderEvent): void => {
+    console.log('handleTouchMove', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
+    gameObjects.forEach((gameObject) => void gameObject.handleTouchMove(event))
+    const posX = pixelRatio * event.nativeEvent.locationX
     const ctx = ctxRef.current as Expo2DContext
     // frameCounter.current = posX / ctx.width * 100
     const scale = posX / ctx.width * 4
@@ -52,7 +55,7 @@ const GameCanvas = (): React.ReactElement => {
     const scale = 3
     ctx.scale(scale, scale)
     gameObjects.push(new RobotHead(ctx))
-    gameObjects.forEach((gameObject) => gameObject.setup())
+    gameObjects.forEach((gameObject) => void gameObject.setup())
   }, [])
 
   const update = (time: number): void => {

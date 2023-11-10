@@ -35,6 +35,7 @@
   "dependencies": {
     "expo": "~49.0.15",
     "expo-2d-context": "^0.0.3",
+    "expo-av": "^13.6.0",
     "expo-gl": "^13.2.0",
     "react": "18.2.0",
     "react-native": "0.72.6"
