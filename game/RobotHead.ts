@@ -1,6 +1,22 @@
+import { ImageData } from 'expo-2d-context'
+
 import GameObject from './GameObject'
 
 export default class RobotHead extends GameObject {
+  imageData?: ImageData
+
+  setup (): void {
+    this.imageData = this.ctx.createImageData(100, 100)
+    // Iterate through every pixel
+    for (let i = 0; i < this.imageData.data.length; i += 4) {
+      const n = Math.round(i / 40000 * 100)
+      this.imageData.data[i + 0] = 50 + n // R value
+      this.imageData.data[i + 1] = 0 // G value
+      this.imageData.data[i + 2] = 150 - n // B value
+      this.imageData.data[i + 3] = 255 // Alpha value
+    }
+  }
+
   draw (frameNr: number): void {
     const pX = frameNr * 1
     const pY = frameNr * 1
@@ -30,5 +46,7 @@ export default class RobotHead extends GameObject {
     this.ctx.lineTo(pX + 70, pY + 30)
     this.ctx.arc(pX + 70, pY + 20, 10, 0.5 * Math.PI, 2.5 * Math.PI)
     this.ctx.stroke()
+
+    this.ctx.putImageData(this.imageData, 100, 100)
   }
 }
