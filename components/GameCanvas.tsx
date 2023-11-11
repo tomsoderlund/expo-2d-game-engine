@@ -3,7 +3,7 @@ import { GestureResponderEvent, PixelRatio } from 'react-native'
 import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
-import GameObject from '../game/GameObject'
+import GameObject, { GameUpdate } from '../game/GameObject'
 import GridLines from '../game/GridLines'
 import Ball from '../game/Ball'
 
@@ -19,8 +19,14 @@ const GameCanvas = (): React.ReactElement => {
 
   const processNextFrame = useCallback((time: number) => {
     if (ctxRef.current !== null) {
-      update(time)
-      draw(frameCounter.current)
+      frameCounter.current += 1
+      const gameUpdate: GameUpdate = {
+        frameNumber: frameCounter.current,
+        deltaTime: time - frameTimer.current
+      }
+      frameTimer.current = time
+      update(gameUpdate)
+      draw(gameUpdate)
     }
     frameHandle.current = requestAnimationFrame(processNextFrame)
   }, [])
@@ -70,13 +76,11 @@ const GameCanvas = (): React.ReactElement => {
     await Promise.all(gameObjects.map(async gameObject => await gameObject.setup()))
   }
 
-  const update = (time: number): void => {
-    frameCounter.current += 1
-    frameTimer.current = time
-    gameObjects.forEach((gameObject) => gameObject.update(time))
+  const update = (update: GameUpdate): void => {
+    gameObjects.forEach((gameObject) => gameObject.update(update))
   }
 
-  const draw = (frameNr: number): void => {
+  const draw = (update: GameUpdate): void => {
     // console.log('pX:', pX, frameTimer.current);
     const ctx = ctxRef.current as Expo2DContext
     // Init
@@ -84,7 +88,7 @@ const GameCanvas = (): React.ReactElement => {
     ctx.clearRect(0, 0, ctx.width, ctx.height)
     gameObjects.forEach((gameObject) => {
       ctx.save()
-      gameObject.draw(frameNr)
+      gameObject.draw(update)
       ctx.restore()
     })
     // Send drawing commands to GPU for rendering

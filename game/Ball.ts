@@ -1,4 +1,4 @@
-import { GameObjectPosition } from './GameObject'
+import { GameObjectPosition, GameUpdate } from './GameObject'
 import { MARGIN } from './GridLines'
 
 const BALL_RADIUS = 100
@@ -9,15 +9,15 @@ export default class Ball extends GameObjectPosition {
     this.acceleration = [0, 1]
   }
 
-  update (time: number): void {
-    super.update(time)
+  update (update: GameUpdate): void {
+    super.update(update)
     if (this.position[1] > (this.ctx.height - MARGIN - BALL_RADIUS)) {
       this.position[1] = (this.ctx.height - MARGIN - BALL_RADIUS - 5)
       this.speed[1] = -this.speed[1]
     }
   }
 
-  draw (frameNr: number): void {
+  draw (update: GameUpdate): void {
     this.ctx.fillStyle = 'orange'
     this.ctx.beginPath()
     this.ctx.arc(this.position[0], this.position[1], BALL_RADIUS, 0, 2 * Math.PI)

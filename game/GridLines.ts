@@ -1,9 +1,9 @@
-import GameObject from './GameObject'
+import GameObject, { GameUpdate } from './GameObject'
 
 export const MARGIN = 120
 
 export default class GridLines extends GameObject {
-  draw (frameNr: number): void {
+  draw (update: GameUpdate): void {
     this.ctx.strokeStyle = 'darkgray'
     this.ctx.lineWidth = 5
     this.ctx.beginPath()

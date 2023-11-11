@@ -1,6 +1,11 @@
 import { GestureResponderEvent } from 'react-native'
 import Expo2DContext from 'expo-2d-context'
 
+export interface GameUpdate {
+  deltaTime: number
+  frameNumber: number
+}
+
 export default abstract class GameObject {
   type: string
   ctx: Expo2DContext
@@ -11,8 +16,8 @@ export default abstract class GameObject {
   }
 
   async setup (): Promise<void> {}
-  update (time: number): void {}
-  draw (frameNr: number): void {}
+  update (update: GameUpdate): void {}
+  draw (update: GameUpdate): void {}
 
   handleTouchPress (event: GestureResponderEvent): void {}
   handleTouchRelease (event: GestureResponderEvent): void {}
@@ -31,7 +36,7 @@ export abstract class GameObjectPosition extends GameObject {
     this.acceleration = [0, 0]
   }
 
-  update (time: number): void {
+  update (update: GameUpdate): void {
     this.speed[0] += this.acceleration[0]
     this.speed[1] += this.acceleration[1]
     this.position[0] += this.speed[0]

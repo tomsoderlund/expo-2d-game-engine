@@ -1,7 +1,7 @@
 import { GestureResponderEvent } from 'react-native'
 import { ImageData } from 'expo-2d-context'
 
-import GameObject from './GameObject'
+import GameObject, { GameUpdate } from './GameObject'
 import Sound from './media/Sound'
 
 export default class RobotHead extends GameObject {
@@ -22,12 +22,12 @@ export default class RobotHead extends GameObject {
     }
   }
 
-  update (time: number): void {
+  update (update: GameUpdate): void {
   }
 
-  draw (frameNr: number): void {
-    const pX = frameNr * 1
-    const pY = frameNr * 1
+  draw (update: GameUpdate): void {
+    const pX = update.frameNumber * 1
+    const pY = update.frameNumber * 1
     // Head
     this.ctx.fillStyle = 'grey'
     this.ctx.fillRect(pX + 20, pY + 40, 100, 100)
