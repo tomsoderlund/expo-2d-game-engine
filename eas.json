@@ -1,0 +1,44 @@
+{
+  "cli": {
+    "version": ">= 5.2.0",
+    "promptToConfigurePushNotifications": false,
+    "requireCommit": true
+  },
+  "build": {
+    "development": {
+      "channel": "development",
+      "distribution": "internal",
+      "developmentClient": true,
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
+    "preview": {
+      "channel": "preview",
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "my@email.com",
+        "appleTeamId": "[hex team id]",
+        "ascAppId": "[Numeric “Apple ID” on App Store Connect]"
+      },
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft",
+        "serviceAccountKeyPath": "./appstores/googleplay/pc-api-XXXXX.json"
+      }
+    }
+  }
+}

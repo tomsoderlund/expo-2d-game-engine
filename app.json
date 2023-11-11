@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "expo-2d-game-engine",
-    "slug": "expo-2d-game-engine",
     "version": "0.1.0",
+    "runtimeVersion": "0.1.0",
+    "slug": "expo-2d-game-engine",
+    "name": "expo-2d-game-engine",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,9 +16,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.MYCOMPANY.expo-2d-game-engine",
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
+      "package": "com.MYCOMPANY.expo-2d-game-engine",
+      "versionCode": 1000001000,
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -25,6 +33,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+      }
+    },
+    "updates": {}
   }
 }
