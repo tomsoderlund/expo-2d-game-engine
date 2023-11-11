@@ -3,9 +3,10 @@ import { GestureResponderEvent, PixelRatio } from 'react-native'
 import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
-import GameObject, { GameUpdate } from '../game/GameObject'
+import GameObject, { GameUpdate, TouchPosition } from '../game/GameObject'
 import GridLines from '../game/GridLines'
 import Ball from '../game/Ball'
+import TouchDragRelease from '../game/input/TouchDragRelease'
 
 const GameCanvas = (): React.ReactElement => {
   const ctxRef = useRef<Expo2DContext | null>(null)
@@ -42,18 +43,21 @@ const GameCanvas = (): React.ReactElement => {
   }, [])
 
   const handleTouchPress = (event: GestureResponderEvent): void => {
-    // console.log('handleTouchPress', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
-    gameObjects.forEach((gameObject) => { gameObject.handleTouchPress(event) })
+    const touchPosition: TouchPosition = [Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY)]
+    // console.log('handleTouchPress', touchPosition)
+    gameObjects.forEach((gameObject) => { gameObject.handleTouchPress(touchPosition) })
   }
 
   const handleTouchRelease = (event: GestureResponderEvent): void => {
-    // console.log('handleTouchRelease', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
-    gameObjects.forEach((gameObject) => { gameObject.handleTouchRelease(event) })
+    const touchPosition: TouchPosition = [Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY)]
+    // console.log('handleTouchRelease', touchPosition)
+    gameObjects.forEach((gameObject) => { gameObject.handleTouchRelease(touchPosition) })
   }
 
   const handleTouchMove = (event: GestureResponderEvent): void => {
-    // console.log('handleTouchMove', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
-    gameObjects.forEach((gameObject) => { gameObject.handleTouchMove(event) })
+    const touchPosition: TouchPosition = [Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY)]
+    // console.log('handleTouchMove', touchPosition)
+    gameObjects.forEach((gameObject) => { gameObject.handleTouchMove(touchPosition) })
   }
 
   const resetTransforms = (): void => {
@@ -73,6 +77,7 @@ const GameCanvas = (): React.ReactElement => {
     // ctx.scale(scale, scale)
     gameObjects.push(new GridLines(ctx))
     gameObjects.push(new Ball(ctx))
+    gameObjects.push(new TouchDragRelease(ctx))
     await Promise.all(gameObjects.map(async gameObject => await gameObject.setup()))
   }
 

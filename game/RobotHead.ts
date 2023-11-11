@@ -1,7 +1,6 @@
-import { GestureResponderEvent } from 'react-native'
 import { ImageData } from 'expo-2d-context'
 
-import GameObject, { GameUpdate } from './GameObject'
+import GameObject, { GameUpdate, TouchPosition } from './GameObject'
 import Sound from './media/Sound'
 
 export default class RobotHead extends GameObject {
@@ -58,7 +57,7 @@ export default class RobotHead extends GameObject {
     if (this.imageData !== null) this.ctx.putImageData(this.imageData, 100, 100)
   }
 
-  handleTouchPress (event: GestureResponderEvent): void {
+  handleTouchPress (position: TouchPosition): void {
     this.laserSound?.play()
   }
 }
