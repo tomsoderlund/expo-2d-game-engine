@@ -2,9 +2,11 @@ import { GestureResponderEvent } from 'react-native'
 import Expo2DContext from 'expo-2d-context'
 
 export default abstract class GameObject {
+  type: string
   ctx: Expo2DContext
 
   constructor (ctx: Expo2DContext) {
+    this.type = 'GameObject'
     this.ctx = ctx
   }
 
