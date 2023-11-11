@@ -4,7 +4,8 @@ import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
 
 import GameObject from '../game/GameObject'
-import RobotHead from '../game/RobotHead'
+import GridLines from '../game/GridLines'
+import Ball from '../game/Ball'
 
 const GameCanvas = (): React.ReactElement => {
   const ctxRef = useRef<Expo2DContext | null>(null)
@@ -15,6 +16,7 @@ const GameCanvas = (): React.ReactElement => {
   const frameTimer = useRef<number>(0)
   const frameCounter = useRef<number>(0)
   const frameHandle = useRef<number | null>()
+
   const processNextFrame = useCallback((time: number) => {
     if (ctxRef.current !== null) {
       update(time)
@@ -25,6 +27,12 @@ const GameCanvas = (): React.ReactElement => {
 
   useEffect(() => {
     frameHandle.current = requestAnimationFrame(processNextFrame)
+    // Cleanup function to cancel the animation frame
+    return () => {
+      if (frameHandle.current !== undefined && frameHandle.current !== null) {
+        cancelAnimationFrame(frameHandle.current)
+      }
+    }
   }, [])
 
   const handleTouchPress = (event: GestureResponderEvent): void => {
@@ -48,14 +56,19 @@ const GameCanvas = (): React.ReactElement => {
     ctx.scale(scale, scale)
   }
 
+  const resetTransforms = (): void => {
+    ctxRef.current?.setTransform(1, 0, 0, 1, 0, 0)
+  }
+
   const handleSetup = useCallback((gl: WebGLRenderingContext) => {
     const ctx = new Expo2DContext(gl as unknown as number, undefined as unknown as Expo2dContextOptions)
     ctxRef.current = ctx
-    ctx.translate(50, 200)
-    const scale = 3
-    ctx.scale(scale, scale)
+    ctx.translate(100, -100)
+    // const scale = 3
+    // ctx.scale(scale, scale)
     console.log('Canvas size:', ctx.width, '*', ctx.height)
-    gameObjects.push(new RobotHead(ctx))
+    gameObjects.push(new GridLines(ctx))
+    gameObjects.push(new Ball(ctx))
     gameObjects.forEach((gameObject) => { void gameObject.setup() })
   }, [])
 
@@ -69,11 +82,13 @@ const GameCanvas = (): React.ReactElement => {
     // console.log('pX:', pX, frameTimer.current);
     const ctx = ctxRef.current as Expo2DContext
     // Init
-    ctx.save()
+    resetTransforms()
+    ctx.translate(0, 0)
+    // ctx.save()
     ctx.clearRect(0, 0, ctx.width, ctx.height)
     gameObjects.forEach((gameObject) => gameObject.draw(frameNr))
     // Send drawing commands to GPU for rendering
-    ctx.restore()
+    // ctx.restore()
     ctx.flush()
   }
 
