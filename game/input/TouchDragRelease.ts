@@ -1,13 +1,11 @@
-import Expo2DContext from 'expo-2d-context'
-
-import { GameObjectPosition, GameUpdate, TouchPosition } from '../GameObject'
+import GameObject, { GameObjectPosition, GameUpdate, TouchPosition } from '../GameObject'
 
 export default class TouchDragRelease extends GameObjectPosition {
   isPressed: boolean
   startPosition: [number, number]
 
-  constructor (ctx: Expo2DContext) {
-    super(ctx)
+  constructor (parent: GameObject) {
+    super(parent)
     this.isPressed = false
     this.startPosition = [0, 0]
   }

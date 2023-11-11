@@ -12,11 +12,13 @@ export type TouchPosition = [
 
 export default abstract class GameObject {
   type: string
+  parent: GameObject | null = null
   ctx: Expo2DContext
 
-  constructor (ctx: Expo2DContext) {
+  constructor (parent: GameObject | null) {
     this.type = 'GameObject'
-    this.ctx = ctx
+    this.parent = parent
+    this.ctx = parent?.ctx as Expo2DContext
   }
 
   async setup (): Promise<void> {}
@@ -33,8 +35,8 @@ export abstract class GameObjectPosition extends GameObject {
   speed: [number, number]
   acceleration: [number, number]
 
-  constructor (ctx: Expo2DContext) {
-    super(ctx)
+  constructor (parent: GameObject) {
+    super(parent)
     this.position = [0, 0]
     this.speed = [0, 0]
     this.acceleration = [0, 0]
