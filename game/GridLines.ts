@@ -1,6 +1,6 @@
 import GameObject from './GameObject'
 
-const MARGIN = 120
+export const MARGIN = 120
 
 export default class GridLines extends GameObject {
   draw (frameNr: number): void {
