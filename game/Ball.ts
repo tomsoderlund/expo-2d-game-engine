@@ -1,4 +1,5 @@
 import GameObject, { GameObjectPosition, GameUpdate, GameEvent } from './GameObject'
+import Sound from './media/Sound'
 import { MARGIN } from './GridLines'
 import { Vector2D, addVector, multiplyVector } from '../lib/math'
 
@@ -7,6 +8,8 @@ const DAMPER = 0.95
 
 export default class Ball extends GameObjectPosition {
   dragVector: Vector2D | null
+  bounceSound?: Sound
+  bounceHardSound?: Sound
 
   constructor (parent: GameObject) {
     super(parent)
@@ -14,6 +17,8 @@ export default class Ball extends GameObjectPosition {
   }
 
   async setup (): Promise<void> {
+    this.bounceSound = new Sound(require('../assets/sounds/bounce.mp3')) // eslint-disable-line @typescript-eslint/no-var-requires
+    this.bounceHardSound = new Sound(require('../assets/sounds/bounce2.mp3')) // eslint-disable-line @typescript-eslint/no-var-requires
     this.position = [this.ctx.width / 2, 0]
     this.acceleration = [0, 1]
   }
@@ -24,6 +29,7 @@ export default class Ball extends GameObjectPosition {
     if (this.position[1] > (this.ctx.height - MARGIN - BALL_RADIUS)) {
       this.position[1] = (this.ctx.height - MARGIN - BALL_RADIUS - 5)
       this.speed[1] = -this.speed[1] * DAMPER
+      this.bounceHardSound?.play()
     }
     // Walls
     if (
@@ -32,6 +38,7 @@ export default class Ball extends GameObjectPosition {
     ) {
       this.position[0] += (this.position[0] < (MARGIN + BALL_RADIUS) ? 5 : -5)
       this.speed[0] = -this.speed[0] * DAMPER
+      this.bounceSound?.play()
     }
   }
 
@@ -66,6 +73,7 @@ export default class Ball extends GameObjectPosition {
       case 'TouchDragRelease':
         this.speed = addVector(this.speed, multiplyVector(event.payload?.vector, 0.07))
         this.dragVector = null
+        this.bounceSound?.play()
         break
     }
   }
