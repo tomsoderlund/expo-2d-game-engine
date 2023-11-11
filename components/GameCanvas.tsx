@@ -67,7 +67,7 @@ const GameCanvas = (): React.ReactElement => {
     // ctx.scale(scale, scale)
     gameObjects.push(new GridLines(ctx))
     gameObjects.push(new Ball(ctx))
-    gameObjects.forEach((gameObject) => { void gameObject.setup() })
+    await Promise.all(gameObjects.map(async gameObject => await gameObject.setup()))
   }
 
   const update = (time: number): void => {
