@@ -36,9 +36,15 @@ export default class Ball extends GameObjectPosition {
   }
 
   draw (update: GameUpdate): void {
+    // Ball
     this.ctx.fillStyle = 'orange'
     this.ctx.beginPath()
     this.ctx.arc(this.position[0], this.position[1], BALL_RADIUS, 0, 2 * Math.PI)
+    this.ctx.fill()
+    // Shine
+    this.ctx.fillStyle = '#ffd5af'
+    this.ctx.beginPath()
+    this.ctx.arc(this.position[0] - 40, this.position[1] - 40, BALL_RADIUS / 5, 0, 2 * Math.PI)
     this.ctx.fill()
     // Drag vector
     if (this.dragVector !== null) {
