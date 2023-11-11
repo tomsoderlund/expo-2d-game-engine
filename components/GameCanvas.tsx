@@ -54,6 +54,7 @@ const GameCanvas = (): React.ReactElement => {
     ctx.translate(50, 200)
     const scale = 3
     ctx.scale(scale, scale)
+    console.log('Canvas size:', ctx.width, '*', ctx.height)
     gameObjects.push(new RobotHead(ctx))
     gameObjects.forEach((gameObject) => { void gameObject.setup() })
   }, [])
