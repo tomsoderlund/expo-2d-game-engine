@@ -23,3 +23,10 @@ Install dependencies:
 Start Expo for native apps:
 
     bun run dev
+
+## Create builds for TestFlight and App Store
+
+(Replace `ios` with `android` for Google Play)
+
+    bun build:ios  # create a build with EAS
+    bun submit:ios  # send the build to Apple/Google
