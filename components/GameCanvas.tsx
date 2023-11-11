@@ -36,41 +36,39 @@ const GameCanvas = (): React.ReactElement => {
   }, [])
 
   const handleTouchPress = (event: GestureResponderEvent): void => {
-    console.log('handleTouchPress', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
+    // console.log('handleTouchPress', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
     gameObjects.forEach((gameObject) => { gameObject.handleTouchPress(event) })
   }
 
   const handleTouchRelease = (event: GestureResponderEvent): void => {
-    console.log('handleTouchRelease', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
+    // console.log('handleTouchRelease', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
     gameObjects.forEach((gameObject) => { gameObject.handleTouchRelease(event) })
   }
 
   const handleTouchMove = (event: GestureResponderEvent): void => {
-    console.log('handleTouchMove', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
+    // console.log('handleTouchMove', Math.round(pixelRatio * event.nativeEvent.locationX), Math.round(pixelRatio * event.nativeEvent.locationY))
     gameObjects.forEach((gameObject) => { gameObject.handleTouchMove(event) })
-    const posX = pixelRatio * event.nativeEvent.locationX
-    const ctx = ctxRef.current as Expo2DContext
-    // frameCounter.current = posX / ctx.width * 100
-    const scale = posX / ctx.width * 4
-    ctx.setTransform(1, 0, 0, 1, 0, 0) // Reset transform
-    ctx.scale(scale, scale)
   }
 
   const resetTransforms = (): void => {
     ctxRef.current?.setTransform(1, 0, 0, 1, 0, 0)
   }
 
-  const handleSetup = useCallback((gl: WebGLRenderingContext) => {
+  const handleSetupGLView = useCallback((gl: WebGLRenderingContext) => {
     const ctx = new Expo2DContext(gl as unknown as number, undefined as unknown as Expo2dContextOptions)
     ctxRef.current = ctx
-    ctx.translate(100, -100)
+    console.log('Canvas size:', ctx.width, '*', ctx.height, { pixelRatio })
+    void setup(ctx)
+  }, [])
+
+  const setup = async (ctx: Expo2DContext): Promise<void> => {
+    // ctx.translate(100, -100)
     // const scale = 3
     // ctx.scale(scale, scale)
-    console.log('Canvas size:', ctx.width, '*', ctx.height)
     gameObjects.push(new GridLines(ctx))
     gameObjects.push(new Ball(ctx))
     gameObjects.forEach((gameObject) => { void gameObject.setup() })
-  }, [])
+  }
 
   const update = (time: number): void => {
     frameCounter.current += 1
@@ -83,19 +81,20 @@ const GameCanvas = (): React.ReactElement => {
     const ctx = ctxRef.current as Expo2DContext
     // Init
     resetTransforms()
-    ctx.translate(0, 0)
-    // ctx.save()
     ctx.clearRect(0, 0, ctx.width, ctx.height)
-    gameObjects.forEach((gameObject) => gameObject.draw(frameNr))
+    gameObjects.forEach((gameObject) => {
+      ctx.save()
+      gameObject.draw(frameNr)
+      ctx.restore()
+    })
     // Send drawing commands to GPU for rendering
-    // ctx.restore()
     ctx.flush()
   }
 
   return (
     <GLView
       style={{ flex: 1 }}
-      onContextCreate={handleSetup}
+      onContextCreate={handleSetupGLView}
       onStartShouldSetResponder={() => true}
       onResponderGrant={handleTouchPress}
       onResponderRelease={handleTouchRelease}
