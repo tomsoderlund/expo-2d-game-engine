@@ -2,7 +2,7 @@ import { GestureResponderEvent } from 'react-native'
 import { ImageData } from 'expo-2d-context'
 
 import GameObject from './GameObject'
-import Sound from './Sound'
+import Sound from './media/Sound'
 
 export default class RobotHead extends GameObject {
   imageData?: ImageData
