@@ -10,17 +10,7 @@ export type TouchPosition = [
   number
 ]
 
-export interface GameObjectType {
-  setup: () => Promise<void>
-  update: (update: GameUpdate) => void
-  draw: (update: GameUpdate) => void
-
-  handleTouchPress: (position: TouchPosition) => void
-  handleTouchRelease: (position: TouchPosition) => void
-  handleTouchMove: (position: TouchPosition) => void
-}
-
-export default abstract class GameObject implements GameObjectType {
+export default abstract class GameObject {
   type: string
   ctx: Expo2DContext
 
