@@ -1,6 +1,6 @@
 import Expo2DContext from 'expo-2d-context'
 
-import GameObject, { GameUpdate, TouchPosition } from './GameObject'
+import GameObject, { GameUpdate, GameEvent, TouchPosition } from './GameObject'
 import GridLines from './GridLines'
 import Ball from './Ball'
 import TouchDragRelease from './input/TouchDragRelease'
@@ -10,6 +10,7 @@ export default class GameWorld extends GameObject {
 
   constructor (ctx: Expo2DContext) {
     super(null)
+    this.type = 'GameWorld'
     this.ctx = ctx
   }
 
@@ -38,6 +39,10 @@ export default class GameWorld extends GameObject {
     })
     // Send drawing commands to GPU for rendering
     this.ctx.flush()
+  }
+
+  handleEvent (event: GameEvent): void {
+    this.gameObjects.forEach((gameObject) => { gameObject.handleEvent(event) })
   }
 
   resetTransforms (): void {

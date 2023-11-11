@@ -1,4 +1,5 @@
 import GameObject, { GameObjectPosition, GameUpdate, TouchPosition } from '../GameObject'
+import { getDistance, subtractVector } from '../../lib/math'
 
 export default class TouchDragRelease extends GameObjectPosition {
   isPressed: boolean
@@ -30,6 +31,13 @@ export default class TouchDragRelease extends GameObjectPosition {
   handleTouchRelease (position: TouchPosition): void {
     this.isPressed = false
     this.position = position
+    this.broadcastEvent({
+      type: 'TouchDragRelease',
+      payload: {
+        vector: subtractVector(this.startPosition, this.position),
+        power: getDistance(this.position, this.startPosition)
+      }
+    })
   }
 
   handleTouchMove (position: TouchPosition): void {

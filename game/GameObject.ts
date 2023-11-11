@@ -1,8 +1,15 @@
 import Expo2DContext from 'expo-2d-context'
 
+import GameWorld from './GameWorld'
+
 export interface GameUpdate {
   deltaTime: number
   frameNumber: number
+}
+
+export interface GameEvent {
+  type: string
+  payload?: Record<string, any>
 }
 
 export type TouchPosition = [
@@ -13,11 +20,13 @@ export type TouchPosition = [
 export default abstract class GameObject {
   type: string
   parent: GameObject | null = null
+  world: GameWorld
   ctx: Expo2DContext
 
   constructor (parent: GameObject | null) {
     this.type = 'GameObject'
     this.parent = parent
+    this.world = parent?.world ?? parent as GameWorld
     this.ctx = parent?.ctx as Expo2DContext
   }
 
@@ -28,6 +37,12 @@ export default abstract class GameObject {
   handleTouchPress (position: TouchPosition): void {}
   handleTouchRelease (position: TouchPosition): void {}
   handleTouchMove (position: TouchPosition): void {}
+
+  broadcastEvent (event: GameEvent): void {
+    this.world?.handleEvent(event)
+  }
+
+  handleEvent (event: GameEvent): void {}
 }
 
 export abstract class GameObjectPosition extends GameObject {
