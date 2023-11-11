@@ -1,4 +1,4 @@
-import { GameObject, GameObjectPosition, GameUpdate, GameEvent } from './GameObject'
+import GameObject, { GameObjectPosition, GameUpdate, GameEvent } from './GameObject'
 import { MARGIN } from './GridLines'
 import { Vector2D, addVector, multiplyVector } from '../lib/math'
 
