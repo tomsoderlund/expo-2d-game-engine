@@ -1,9 +1,9 @@
 import GameObject, { GameObjectPosition, GameUpdate, TouchPosition } from '../GameObject'
-import { getDistance, subtractVector } from '../../lib/math'
+import { Vector2D, getDistance, subtractVector } from '../../lib/math'
 
 export default class TouchDragRelease extends GameObjectPosition {
   isPressed: boolean
-  startPosition: [number, number]
+  startPosition: Vector2D
 
   constructor (parent: GameObject) {
     super(parent)
@@ -11,16 +11,16 @@ export default class TouchDragRelease extends GameObjectPosition {
     this.startPosition = [0, 0]
   }
 
-  draw (update: GameUpdate): void {
-    if (this.isPressed) {
-      this.ctx.strokeStyle = 'tomato'
-      this.ctx.lineWidth = 15
-      this.ctx.beginPath()
-      this.ctx.moveTo(this.startPosition[0], this.startPosition[1])
-      this.ctx.lineTo(this.position[0], this.position[1])
-      this.ctx.stroke()
-    }
-  }
+  // draw (update: GameUpdate): void {
+  //   if (this.isPressed) {
+  //     this.ctx.strokeStyle = 'tomato'
+  //     this.ctx.lineWidth = 15
+  //     this.ctx.beginPath()
+  //     this.ctx.moveTo(this.startPosition[0], this.startPosition[1])
+  //     this.ctx.lineTo(this.position[0], this.position[1])
+  //     this.ctx.stroke()
+  //   }
+  // }
 
   handleTouchPress (position: TouchPosition): void {
     this.isPressed = true
@@ -42,5 +42,11 @@ export default class TouchDragRelease extends GameObjectPosition {
 
   handleTouchMove (position: TouchPosition): void {
     this.position = position
+    this.broadcastEvent({
+      type: 'TouchDragMove',
+      payload: {
+        vector: subtractVector(this.position, this.startPosition)
+      }
+    })
   }
 }
