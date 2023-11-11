@@ -11,7 +11,7 @@
     "unit": "babel-node spec/run.js",
     "lint": "ts-standard",
     "fix": "ts-standard --fix",
-    "newg": "cp game/GameObject.ts game/New.ts; echo \"Now rename file 'game/New.ts' to whatever you want.\"",
+    "newg": "cp game/Ball.ts game/New.ts; echo \"Now rename file 'game/New.ts' to whatever you want.\"",
     "pub": "expo publish",
     "build:ios": "eas build --profile production --platform ios",
     "build:android": "eas build --profile production --platform android",
