@@ -1,6 +1,6 @@
 import GameObject, { GameObjectWithPosition, GameUpdate, GameEvent } from './GameObject'
 import Sound from './media/Sound'
-import { MARGIN } from './GridLines'
+import { MARGIN } from './LevelWalls'
 import { Vector2D, addVector, multiplyVector } from '../lib/math'
 
 const BALL_RADIUS = 100

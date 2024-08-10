@@ -1,7 +1,7 @@
 import Expo2DContext from 'expo-2d-context'
 
 import GameObject, { GameUpdate, GameEvent, TouchPosition } from './GameObject'
-import GridLines from './GridLines'
+import LevelWalls from './LevelWalls'
 import Ball from './Ball'
 import TouchDragRelease from './input/TouchDragRelease'
 
@@ -18,7 +18,7 @@ export default class GameWorld extends GameObject {
     // ctx.translate(100, -100)
     // const scale = 3
     // ctx.scale(scale, scale)
-    this.gameObjects.push(new GridLines(this))
+    this.gameObjects.push(new LevelWalls(this))
     this.gameObjects.push(new Ball(this))
     this.gameObjects.push(new TouchDragRelease(this))
     await Promise.all(this.gameObjects.map(async gameObject => await gameObject.setup()))

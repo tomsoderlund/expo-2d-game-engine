@@ -2,7 +2,7 @@ import GameObject, { GameUpdate } from './GameObject'
 
 export const MARGIN = 80
 
-export default class GridLines extends GameObject {
+export default class LevelWalls extends GameObject {
   draw (update: GameUpdate): void {
     this.ctx.strokeStyle = 'darkgray'
     this.ctx.lineWidth = 5
