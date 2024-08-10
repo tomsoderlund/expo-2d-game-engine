@@ -45,7 +45,7 @@ export default abstract class GameObject {
   handleEvent (event: GameEvent): void {}
 }
 
-export abstract class GameObjectPosition extends GameObject {
+export abstract class GameObjectWithPosition extends GameObject {
   position: [number, number]
   speed: [number, number]
   acceleration: [number, number]

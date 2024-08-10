@@ -1,4 +1,4 @@
-import GameObject, { GameObjectPosition, GameUpdate, GameEvent } from './GameObject'
+import GameObject, { GameObjectWithPosition, GameUpdate, GameEvent } from './GameObject'
 import Sound from './media/Sound'
 import { MARGIN } from './GridLines'
 import { Vector2D, addVector, multiplyVector } from '../lib/math'
@@ -6,7 +6,7 @@ import { Vector2D, addVector, multiplyVector } from '../lib/math'
 const BALL_RADIUS = 100
 const DAMPER = 0.95
 
-export default class Ball extends GameObjectPosition {
+export default class Ball extends GameObjectWithPosition {
   dragVector: Vector2D | null
   bounceSound?: Sound
   bounceHardSound?: Sound

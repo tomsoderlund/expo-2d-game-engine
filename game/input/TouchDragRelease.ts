@@ -1,7 +1,7 @@
-import GameObject, { GameObjectPosition, TouchPosition } from '../GameObject'
+import GameObject, { GameObjectWithPosition, TouchPosition } from '../GameObject'
 import { Vector2D, getDistance, subtractVector } from '../../lib/math'
 
-export default class TouchDragRelease extends GameObjectPosition {
+export default class TouchDragRelease extends GameObjectWithPosition {
   isPressed: boolean
   startPosition: Vector2D
 
