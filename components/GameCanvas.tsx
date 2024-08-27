@@ -1,10 +1,10 @@
 import React, { useRef, useCallback, useEffect } from 'react'
-import { GestureResponderEvent, PixelRatio } from 'react-native'
+import { GestureResponderEvent, PixelRatio, useWindowDimensions } from 'react-native'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
-import { Canvas, Circle, Group, useCanvasRef } from '@shopify/react-native-skia'
+import { Canvas, Circle, Group, useCanvasRef, Fill } from '@shopify/react-native-skia'
+import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 import {
-  useDerivedValue,
-  useSharedValue,
+  useSharedValue, withDecay, useDerivedValue,
   withRepeat,
   withTiming
 } from 'react-native-reanimated'
@@ -80,19 +80,41 @@ const GameCanvas = (): React.ReactElement => {
     r.value = withRepeat(withTiming(size * 0.33, { duration: 1000 }), -1)
   }, [r, size])
 
+  const { width } = useWindowDimensions()
+  const leftBoundary = 0
+  const rightBoundary = width
+  const translateX = useSharedValue(width / 2)
+
+  const gesture = Gesture.Pan()
+    .onChange((e) => {
+      translateX.value += e.changeX
+    })
+    .onEnd((e) => {
+      translateX.value = withDecay({
+        velocity: e.velocityX,
+        clamp: [leftBoundary, rightBoundary]
+      })
+    })
+
   return (
-    <Canvas style={{ flex: 1 }} ref={ref}>
-      <Group blendMode='multiply'>
-        <Circle cx={r} cy={r} r={r} color='cyan' />
-        <Circle cx={c} cy={r} r={r} color='magenta' />
-        <Circle
-          cx={size / 2}
-          cy={c}
-          r={r}
-          color='yellow'
-        />
-      </Group>
-    </Canvas>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureDetector gesture={gesture}>
+        <Canvas style={{ flex: 1 }} ref={ref}>
+          <Fill color='white' />
+          <Circle cx={translateX} cy={40} r={20} color='#3E3E' />
+          <Group blendMode='multiply'>
+            <Circle cx={r} cy={r} r={r} color='cyan' />
+            <Circle cx={c} cy={r} r={r} color='magenta' />
+            <Circle
+              cx={size / 2}
+              cy={c}
+              r={r}
+              color='yellow'
+            />
+          </Group>
+        </Canvas>
+      </GestureDetector>
+    </GestureHandlerRootView>
   )
 }
 
