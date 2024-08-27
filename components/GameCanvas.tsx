@@ -1,7 +1,13 @@
 import React, { useRef, useCallback, useEffect } from 'react'
 import { GestureResponderEvent, PixelRatio } from 'react-native'
-import { GLView } from 'expo-gl'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
+import { Canvas, Circle, Group, useCanvasRef } from '@shopify/react-native-skia'
+import {
+  useDerivedValue,
+  useSharedValue,
+  withRepeat,
+  withTiming
+} from 'react-native-reanimated'
 
 import { GameUpdate, TouchPosition } from '../game/GameObject'
 import GameWorld from '../game/GameWorld'
@@ -66,15 +72,27 @@ const GameCanvas = (): React.ReactElement => {
     void gameWorld?.setup()
   }, [])
 
+  const ref = useCanvasRef()
+  const size = 256
+  const r = useSharedValue(0)
+  const c = useDerivedValue(() => size - r.value)
+  useEffect(() => {
+    r.value = withRepeat(withTiming(size * 0.33, { duration: 1000 }), -1)
+  }, [r, size])
+
   return (
-    <GLView
-      style={{ flex: 1 }}
-      onContextCreate={handleSetupGLView}
-      onStartShouldSetResponder={() => true}
-      onResponderGrant={handleTouchPress}
-      onResponderRelease={handleTouchRelease}
-      onResponderMove={handleTouchMove}
-    />
+    <Canvas style={{ flex: 1 }} ref={ref}>
+      <Group blendMode='multiply'>
+        <Circle cx={r} cy={r} r={r} color='cyan' />
+        <Circle cx={c} cy={r} r={r} color='magenta' />
+        <Circle
+          cx={size / 2}
+          cy={c}
+          r={r}
+          color='yellow'
+        />
+      </Group>
+    </Canvas>
   )
 }
 
