@@ -80,10 +80,10 @@ const GameCanvas = (): React.ReactElement => {
     r.value = withRepeat(withTiming(size * 0.33, { duration: 1000 }), -1)
   }, [r, size])
 
-  const { width } = useWindowDimensions()
+  const windowDimensions = useWindowDimensions()
   const leftBoundary = 0
-  const rightBoundary = width
-  const translateX = useSharedValue(width / 2)
+  const rightBoundary = windowDimensions.width
+  const translateX = useSharedValue(windowDimensions.width / 2)
 
   const gesture = Gesture.Pan()
     .onChange((e) => {
@@ -96,6 +96,8 @@ const GameCanvas = (): React.ReactElement => {
       })
     })
 
+  const smallSize = 50
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GestureDetector gesture={gesture}>
@@ -106,12 +108,14 @@ const GameCanvas = (): React.ReactElement => {
             <Circle cx={r} cy={r} r={r} color='cyan' />
             <Circle cx={c} cy={r} r={r} color='magenta' />
             <Circle
-              cx={size / 2}
+              cx={windowDimensions.width - size}
               cy={c}
               r={r}
               color='yellow'
             />
           </Group>
+          <Circle cx={smallSize} cy={windowDimensions.height-smallSize} r={smallSize} color='lime' />
+          <Circle cx={windowDimensions.width-smallSize} cy={windowDimensions.height-smallSize} r={smallSize} color='lime' />
         </Canvas>
       </GestureDetector>
     </GestureHandlerRootView>
