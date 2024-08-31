@@ -4,6 +4,15 @@ React Native 2D game engine built on expo-gl and expo-2d-context
 
 ![expo-2d-game-engine demo on phone](docs/demo.gif)
 
+Based on:
+
+- react-native
+- expo
+- react-native-skia: for graphics
+- react-native-reanimated: for animations
+- react-native-gesture-handler: for gesture input
+- expo-av: for sound
+
 ## How to use
 
 Clone this repository:
@@ -30,3 +39,11 @@ Start Expo for native apps:
 
     bun build:ios  # create a build with EAS
     bun submit:ios  # send the build to Apple/Google
+
+## Modifying the game
+
+Portrait vs Landscape:
+
+`app.json`:
+
+    "orientation": "landscape"
