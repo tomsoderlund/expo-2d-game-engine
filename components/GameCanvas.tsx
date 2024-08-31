@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react'
 import { GestureResponderEvent, PixelRatio, useWindowDimensions } from 'react-native'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
-import { Canvas, Circle, Group, useCanvasRef, Fill } from '@shopify/react-native-skia'
+import { Canvas, Circle, Group, useCanvasRef, Fill, ImageSVG, useSVG } from '@shopify/react-native-skia'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 import {
   useSharedValue, withDecay, useDerivedValue,
@@ -98,6 +98,8 @@ const GameCanvas = (): React.ReactElement => {
 
   const smallSize = 50
 
+  const svg = useSVG(require('../assets/game/svg_guy.svg'))
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GestureDetector gesture={gesture}>
@@ -114,8 +116,16 @@ const GameCanvas = (): React.ReactElement => {
               color='yellow'
             />
           </Group>
-          <Circle cx={smallSize} cy={windowDimensions.height-smallSize} r={smallSize} color='lime' />
-          <Circle cx={windowDimensions.width-smallSize} cy={windowDimensions.height-smallSize} r={smallSize} color='lime' />
+          <Circle cx={smallSize} cy={windowDimensions.height - smallSize} r={smallSize} color='lime' />
+          <Circle cx={windowDimensions.width - smallSize} cy={windowDimensions.height - smallSize} r={smallSize} color='lime' />
+          {(svg !== null) && (
+            <ImageSVG
+              svg={svg}
+              x={20}
+              y={0}
+              width={200}
+              height={20}
+            />)}
         </Canvas>
       </GestureDetector>
     </GestureHandlerRootView>
