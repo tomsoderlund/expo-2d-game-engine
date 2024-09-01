@@ -3,7 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "upgrade-expo": "npx expo-doctor; bun install; echo bun run api",
+    "upgrade-expo": "yarn add expo@latest; npx expo install --fix; npx expo install --check; npx expo-doctor; bun install; echo bun run api",
     "dev": "bun run start",
     "start": "expo start",
     "eject": "expo eject",
@@ -13,8 +13,8 @@
     "fix": "ts-standard --fix",
     "newg": "cp game/Ball.ts game/New.ts; echo \"Now rename file 'game/New.ts' to whatever you want.\"",
     "pub": "expo publish",
-    "build:ios": "eas build --profile production --platform ios",
-    "build:android": "eas build --profile production --platform android",
+    "build:ios": "eas build --profile production --platform ios --auto-submit",
+    "build:android": "eas build --profile production --platform android --auto-submit",
     "submit:ios": "eas submit --platform ios --latest",
     "submit:android": "eas submit --platform android --latest",
     "submit:hotfix": "eas update"
