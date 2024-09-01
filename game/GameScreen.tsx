@@ -11,6 +11,8 @@ import Ball, { ballSize } from './Ball'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
 
+const SCREEN_UPDATE_INTERVAL = Math.round(1000 / 60) // 60 FPS
+
 const GameScreen: React.FC = (): React.ReactElement => {
   const windowDimensions = useWindowDimensions()
 
@@ -61,7 +63,7 @@ const GameScreen: React.FC = (): React.ReactElement => {
         ballPositionY.value = paddleY.value - ballSize - 5
         ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
       }
-    }, 16) // Approx. 60 FPS
+    }, SCREEN_UPDATE_INTERVAL)
 
     return () => clearInterval(gameLoop)
   }, [])
