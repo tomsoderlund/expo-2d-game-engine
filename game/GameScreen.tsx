@@ -10,9 +10,6 @@ import GameCanvas from '../components/GameCanvas'
 import Paddle, { paddleWidth, paddleHeight } from './Paddle'
 import Ball, { ballSize } from './Ball'
 
-const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
-const bounceSound = require('../assets/sounds/bounce.mp3') // eslint-disable-line @typescript-eslint/no-var-requires
-
 const SCREEN_UPDATE_INTERVAL = Math.round(1000 / 60) // 60 FPS
 
 const GameScreen: React.FC = (): React.ReactElement => {
@@ -35,7 +32,8 @@ const GameScreen: React.FC = (): React.ReactElement => {
       })
     })
 
-  const playBounceSound = useSound(bounceSound)
+  const playBounceSound = useSound(require('../assets/sounds/bounce.mp3')) // eslint-disable-line @typescript-eslint/no-var-requires
+  const playBounceSound2 = useSound(require('../assets/sounds/bounce2.mp3')) // eslint-disable-line @typescript-eslint/no-var-requires
 
   // Shared values for ball position and velocity
   const ballPositionX = useSharedValue(windowDimensions.width / 2)
@@ -50,12 +48,12 @@ const GameScreen: React.FC = (): React.ReactElement => {
       ballPositionY.value += ballVelocityY.value
 
       // Detect collision with walls
-      bounceWalls(ballPositionX, ballVelocityX, 0, windowDimensions.width - ballSize)
+      const didCollideSides = bounceWalls(ballPositionX, ballVelocityX, 0, windowDimensions.width - ballSize)
       // Detect collision with ceiling or floor
-      bounceWalls(ballPositionY, ballVelocityY, 0, windowDimensions.height - ballSize)
+      const didCollideCeiling = bounceWalls(ballPositionY, ballVelocityY, 0, windowDimensions.height - ballSize)
 
       // Detect collision with paddle
-      if (areCircleAndRectangleColliding(
+      const didCollidePaddle = areCircleAndRectangleColliding(
         ballPositionX.value + ballSize / 2,
         ballPositionY.value + ballSize / 2,
         ballSize / 2,
@@ -63,10 +61,17 @@ const GameScreen: React.FC = (): React.ReactElement => {
         paddleY.value,
         paddleWidth,
         paddleHeight
-      )) {
+      )
+      if (didCollidePaddle) {
         ballPositionY.value = paddleY.value - ballSize - 5
         ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
+      }
+
+      if (didCollideSides || didCollideCeiling) {
         void playBounceSound()
+      }
+      if (didCollidePaddle) {
+        void playBounceSound2()
       }
     }, SCREEN_UPDATE_INTERVAL)
 
@@ -88,22 +93,25 @@ const GameScreen: React.FC = (): React.ReactElement => {
 
 export default GameScreen
 
-function bounceWalls (position: SharedValue<number>, velocity: SharedValue<number>, minValue: number, maxValue: number, bounceMargin: number = 5): void {
+function bounceWalls (position: SharedValue<number>, velocity: SharedValue<number>, minValue: number, maxValue: number, bounceMargin: number = 5): boolean {
   // Left side or ceiling
   if (position.value <= minValue) {
     position.value = minValue + bounceMargin
     velocity.value = -velocity.value
+    return true
   }
   // Right side or floor
   if (position.value >= maxValue) {
     position.value = maxValue - bounceMargin
     velocity.value = -velocity.value
+    return true
   }
+  return false
 }
 
 const LogoBitmapImage: React.FC = () => {
   const windowDimensions = useWindowDimensions()
-  const logoBitmapImage = useImage(logoImageRequire)
+  const logoBitmapImage = useImage(require('../assets/game/tomorroworld_logo.png')) // eslint-disable-line @typescript-eslint/no-var-requires
   return (
     <Image
       image={logoBitmapImage}
