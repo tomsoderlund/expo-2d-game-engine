@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react'
 import { GestureResponderEvent, PixelRatio, useWindowDimensions } from 'react-native'
 import Expo2DContext, { Expo2dContextOptions } from 'expo-2d-context'
-import { Canvas, Circle, Group, useCanvasRef, Fill } from '@shopify/react-native-skia'
+import { Canvas, Circle, Group, useCanvasRef, Fill, Image, useImage } from '@shopify/react-native-skia'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 import {
   useSharedValue, withDecay, useDerivedValue,
@@ -99,7 +99,7 @@ const GameCanvas = (): React.ReactElement => {
 
   const smallSize = 50
 
-  console.log('windowDimensions:', windowDimensions)
+  const logoBitmapImage = useImage(require('../assets/game/tomorroworld_logo.png'));
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -120,6 +120,14 @@ const GameCanvas = (): React.ReactElement => {
           <Circle cx={smallSize} cy={windowDimensions.height - smallSize} r={smallSize} color='lime' />
           <Circle cx={windowDimensions.width - smallSize} cy={windowDimensions.height - smallSize} r={smallSize} color='lime' />
           <ScaledSVG imageRequire={require('../assets/game/svg_guy.svg')} x={windowDimensions.width / 2} y={windowDimensions.height / 2} width={100} height={100} />
+          <Image
+            image={logoBitmapImage}
+            x={windowDimensions.width - 40 - 10}
+            y={10}
+            width={40}
+            height={40}
+            fit='contain'
+          />
         </Canvas>
       </GestureDetector>
     </GestureHandlerRootView>
