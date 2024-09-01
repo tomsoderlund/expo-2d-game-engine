@@ -7,8 +7,8 @@ import {
 } from 'react-native-reanimated'
 
 import GameCanvas from '../components/GameCanvas'
-import ScaledSVG from '../components/ScaledSVG'
 import Paddle, { paddleWidth } from './Paddle'
+import Ball from './Ball'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
 
@@ -35,7 +35,7 @@ const GameScreen: React.FC = (): React.ReactElement => {
       <GestureDetector gesture={gesture}>
         <GameCanvas>
           <Paddle x={translateX} />
-          <ScaledSVG imageRequire={require('../assets/game/svg_guy.svg')} x={windowDimensions.width / 2} y={windowDimensions.height / 2} width={100} height={100} />
+          <Ball x={translateX} />
           <LogoBitmapImage />
         </GameCanvas>
       </GestureDetector>
