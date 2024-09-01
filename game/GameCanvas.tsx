@@ -8,6 +8,7 @@ import {
 } from 'react-native-reanimated'
 
 import ScaledSVG from '../components/ScaledSVG'
+import Paddle, { paddleWidth } from './Paddle'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
 
@@ -22,7 +23,7 @@ const GameCanvas: React.FC = (): React.ReactElement => {
 
   const windowDimensions = useWindowDimensions()
   const leftBoundary = 0
-  const rightBoundary = windowDimensions.width
+  const rightBoundary = windowDimensions.width - paddleWidth
   const translateX = useSharedValue(windowDimensions.width / 2)
 
   const gesture = Gesture.Pan()
@@ -45,7 +46,7 @@ const GameCanvas: React.FC = (): React.ReactElement => {
       <GestureDetector gesture={gesture}>
         <Canvas style={{ flex: 1 }} ref={ref}>
           <Fill color='white' />
-          <Circle cx={translateX} cy={40} r={20} color='#3E3E' />
+          <Paddle x={translateX} />
           <Group blendMode='multiply'>
             <Circle cx={r} cy={r} r={r} color='cyan' />
             <Circle cx={c} cy={r} r={r} color='magenta' />
