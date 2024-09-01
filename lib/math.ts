@@ -27,16 +27,16 @@ export function areTwoRectanglesColliding (
 }
 
 export function areCircleAndRectangleColliding (
-  circleX: number,
-  circleY: number,
+  circleCenterX: number,
+  circleCenterY: number,
   circleRadius: number,
-  rectX: number,
-  rectY: number,
+  rectLeftX: number,
+  rectTopY: number,
   rectWidth: number,
   rectHeight: number
 ): boolean {
-  const distX = Math.abs(circleX - rectX - rectWidth / 2)
-  const distY = Math.abs(circleY - rectY - rectHeight / 2)
+  const distX = Math.abs(circleCenterX - rectLeftX - rectWidth / 2)
+  const distY = Math.abs(circleCenterY - rectTopY - rectHeight / 2)
   if (distX > (rectWidth / 2 + circleRadius)) return false
   if (distY > (rectHeight / 2 + circleRadius)) return false
   if (distX <= (rectWidth / 2)) return true

@@ -55,8 +55,8 @@ const GameScreen: React.FC = (): React.ReactElement => {
         ballPositionX.value + ballSize / 2,
         ballPositionY.value + ballSize / 2,
         ballSize / 2,
-        paddleX.value + paddleWidth / 2,
-        paddleY.value + paddleHeight / 2,
+        paddleX.value,
+        paddleY.value,
         paddleWidth,
         paddleHeight
       )) {
