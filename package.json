@@ -3,7 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "upgrade-expo": "npx expo-doctor; bun install; echo bun run api",
+    "upgrade-expo": "yarn add expo@latest; npx expo install --fix; npx expo install --check; npx expo-doctor; bun install; echo bun run api",
     "dev": "bun run start",
     "start": "expo start",
     "eject": "expo eject",
@@ -13,8 +13,8 @@
     "fix": "ts-standard --fix",
     "newg": "cp game/Ball.ts game/New.ts; echo \"Now rename file 'game/New.ts' to whatever you want.\"",
     "pub": "expo publish",
-    "build:ios": "eas build --profile production --platform ios",
-    "build:android": "eas build --profile production --platform android",
+    "build:ios": "eas build --profile production --platform ios --auto-submit",
+    "build:android": "eas build --profile production --platform android --auto-submit",
     "submit:ios": "eas submit --platform ios --latest",
     "submit:android": "eas submit --platform android --latest",
     "submit:hotfix": "eas update"
@@ -30,13 +30,14 @@
     ]
   },
   "dependencies": {
+    "@shopify/react-native-skia": "1.2.3",
     "expo": "^51.0.25",
-    "expo-2d-context": "^0.0.4",
     "expo-av": "^14.0.6",
     "expo-build-properties": "^0.12.5",
-    "expo-gl": "^14.0.2",
     "react": "^18.2.0",
-    "react-native": "^0.74.5"
+    "react-native": "^0.74.5",
+    "react-native-gesture-handler": "~2.16.1",
+    "react-native-reanimated": "~3.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

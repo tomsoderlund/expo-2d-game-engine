@@ -1,8 +1,16 @@
-import 'expo-2d-context'
+// import { SharedValue } from 'react-native-reanimated'
 
-declare module 'expo-2d-context' {
-  interface Expo2DContext {
-    createImageData(width: number, height: number): ImageData
-    putImageData(imagedata: ImageData, dx: number, dy: number): void
-  }
+interface Position {
+  x: SharedValue<number>
+  y: SharedValue<number>
+}
+
+interface Velocity {
+  x: SharedValue<number>
+  y: SharedValue<number>
+}
+
+interface Size {
+  width: SharedValue<number>
+  height: SharedValue<number>
 }

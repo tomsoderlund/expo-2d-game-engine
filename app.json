@@ -4,7 +4,7 @@
     "runtimeVersion": "0.1.0",
     "slug": "expo-2d-game-engine",
     "name": "expo-2d-game-engine",
-    "orientation": "landscape",
+    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
