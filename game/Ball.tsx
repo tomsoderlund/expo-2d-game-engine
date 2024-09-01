@@ -1,20 +1,24 @@
 import React from 'react'
+import { ImageSVG, useSVG } from '@shopify/react-native-skia'
 import { SharedValue } from 'react-native-reanimated'
 
-import ScaledSVG from '../components/ScaledSVG'
-
 interface BallProps {
-  x: SharedValue<number>
 }
 
-const Ball: React.FC<BallProps> = ({ x }) => {
+const svgRequire = require('../assets/game/ball.svg') // eslint-disable-line @typescript-eslint/no-var-requires
+
+const Ball: React.FC<BallProps> = () => {
+  const svg = useSVG(svgRequire)
+  if (svg === null) {
+    return null
+  }
   return (
-    <ScaledSVG
-      imageRequire={require('../assets/game/ball.svg')}
-      x={x.value}
-      y={200}
-      width={100}
-      height={100}
+    <ImageSVG
+      svg={svg}
+      x={100}
+      y={100}
+      width={60}
+      height={60}
     />
   )
 }
