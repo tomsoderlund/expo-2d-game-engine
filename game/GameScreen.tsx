@@ -1,18 +1,18 @@
 import React from 'react'
 import { useWindowDimensions } from 'react-native'
-import { Canvas, useCanvasRef, Fill, Image, useImage } from '@shopify/react-native-skia'
+import { useCanvasRef, Image, useImage } from '@shopify/react-native-skia'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 import {
   useSharedValue, withDecay
 } from 'react-native-reanimated'
 
+import GameCanvas from '../components/GameCanvas'
 import ScaledSVG from '../components/ScaledSVG'
 import Paddle, { paddleWidth } from './Paddle'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
 
-const GameCanvas: React.FC = (): React.ReactElement => {
-  const ref = useCanvasRef()
+const GameScreen: React.FC = (): React.ReactElement => {
   const windowDimensions = useWindowDimensions()
 
   const leftBoundary = 0
@@ -35,8 +35,7 @@ const GameCanvas: React.FC = (): React.ReactElement => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GestureDetector gesture={gesture}>
-        <Canvas style={{ flex: 1 }} ref={ref}>
-          <Fill color='white' />
+        <GameCanvas>
           <Paddle x={translateX} />
           <ScaledSVG imageRequire={require('../assets/game/svg_guy.svg')} x={windowDimensions.width / 2} y={windowDimensions.height / 2} width={100} height={100} />
           <Image
@@ -47,10 +46,10 @@ const GameCanvas: React.FC = (): React.ReactElement => {
             height={40}
             fit='contain'
           />
-        </Canvas>
+        </GameCanvas>
       </GestureDetector>
     </GestureHandlerRootView>
   )
 }
 
-export default GameCanvas
+export default GameScreen

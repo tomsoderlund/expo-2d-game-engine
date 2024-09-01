@@ -1,9 +1,9 @@
 import React from 'react'
-import GameCanvas from './game/GameCanvas'
+import GameScreen from './game/GameScreen'
 
 const App = (): React.ReactElement => {
   return (
-    <GameCanvas />
+    <GameScreen />
   )
 }
 
