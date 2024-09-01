@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { Image, useImage } from '@shopify/react-native-skia'
+import { SharedValue, useSharedValue, withDecay } from 'react-native-reanimated'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
-import { useSharedValue, withDecay } from 'react-native-reanimated'
 
 import GameCanvas from '../components/GameCanvas'
 import Paddle, { paddleWidth } from './Paddle'
@@ -36,8 +36,6 @@ const GameScreen: React.FC = (): React.ReactElement => {
   const ballVelocityX = useSharedValue(-3)
   const ballVelocityY = useSharedValue(5)
 
-  const bounceMargin = 5
-
   useEffect(() => {
     const gameLoop = setInterval(() => {
       // Update ball position
@@ -45,23 +43,9 @@ const GameScreen: React.FC = (): React.ReactElement => {
       ballPositionY.value += ballVelocityY.value
 
       // Detect collision with walls
-      if (ballPositionX.value <= 0) {
-        ballVelocityX.value = -ballVelocityX.value
-        ballPositionX.value = bounceMargin
-      }
-      if (ballPositionX.value >= windowDimensions.width - ballSize) {
-        ballVelocityX.value = -ballVelocityX.value
-        ballPositionX.value = windowDimensions.width - ballSize - bounceMargin
-      }
+      bounceWalls(ballPositionX, ballVelocityX, 0, windowDimensions.width - ballSize)
       // Detect collision with ceiling or floor
-      if (ballPositionY.value <= 0) {
-        ballVelocityY.value = -ballVelocityY.value
-        ballPositionY.value = bounceMargin
-      }
-      if (ballPositionY.value >= windowDimensions.height - ballSize) {
-        ballVelocityY.value = -ballVelocityY.value
-        ballPositionY.value = windowDimensions.height - ballSize - bounceMargin
-      }
+      bounceWalls(ballPositionY, ballVelocityY, 0, windowDimensions.height - ballSize)
 
       // Detect collision with paddle
       if (
@@ -91,6 +75,18 @@ const GameScreen: React.FC = (): React.ReactElement => {
 }
 
 export default GameScreen
+
+function bounceWalls (position: SharedValue<number>, velocity: SharedValue<number>, minValue: number, maxValue: number, bounceMargin: number = 5): void {
+  // Detect collision with ceiling or floor
+  if (position.value <= minValue) {
+    position.value = minValue + bounceMargin
+    velocity.value = -velocity.value
+  }
+  if (position.value >= maxValue) {
+    position.value = maxValue - bounceMargin
+    velocity.value = -velocity.value
+  }
+}
 
 const LogoBitmapImage: React.FC = () => {
   const windowDimensions = useWindowDimensions()
