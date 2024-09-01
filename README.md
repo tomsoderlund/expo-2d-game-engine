@@ -1,6 +1,6 @@
 # expo-2d-game-engine
 
-React Native 2D game engine built on Expo and [Skia](https://shopify.github.io/react-native-skia/)*:
+React Native 2D game engine built on [Skia](https://shopify.github.io/react-native-skia/)* and Expo:
 
 - react-native
 - expo
