@@ -1,5 +1,5 @@
 import React from 'react'
-import GameCanvas from './components/GameCanvas'
+import GameCanvas from './game/GameCanvas'
 
 const App = (): React.ReactElement => {
   return (
