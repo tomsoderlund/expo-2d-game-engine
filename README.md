@@ -1,6 +1,6 @@
 # expo-2d-game-engine
 
-React Native 2D game engine built on Expo and Skia:
+React Native 2D game engine built on Expo and Skia*:
 
 - react-native
 - expo
@@ -8,6 +8,8 @@ React Native 2D game engine built on Expo and Skia:
 - react-native-reanimated: for animations
 - react-native-gesture-handler: for gesture input
 - expo-av: for sound
+
+There is an old branch `old-expo-2d-context` that uses expo-2d-context/expo-gl.
 
 ![expo-2d-game-engine demo on phone](docs/demo.gif)
 
@@ -23,7 +25,7 @@ Remove the `.git` folder since you want to create a new repository
 
     rm -rf .git
 
-Install dependencies:
+Install dependencies (you can use `yarn` or `npm` too):
 
     bun install
 
