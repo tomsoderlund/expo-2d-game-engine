@@ -6,7 +6,7 @@ import { useSharedValue, withDecay } from 'react-native-reanimated'
 
 import GameCanvas from '../components/GameCanvas'
 import Paddle, { paddleWidth } from './Paddle'
-import Ball from './Ball'
+import Ball, { ballSize } from './Ball'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
 
@@ -31,32 +31,46 @@ const GameScreen: React.FC = (): React.ReactElement => {
     })
 
   // Shared values for ball position and velocity
-  const ballX = useSharedValue(windowDimensions.width / 2)
-  const ballY = useSharedValue(windowDimensions.height / 2)
-  const velocityX = useSharedValue(0)
-  const velocityY = useSharedValue(5)
+  const ballPositionX = useSharedValue(windowDimensions.width / 2)
+  const ballPositionY = useSharedValue(windowDimensions.height / 2)
+  const ballVelocityX = useSharedValue(-3)
+  const ballVelocityY = useSharedValue(5)
+
+  const bounceMargin = 5
 
   useEffect(() => {
     const gameLoop = setInterval(() => {
       // Update ball position
-      ballX.value += velocityX.value
-      ballY.value += velocityY.value
+      ballPositionX.value += ballVelocityX.value
+      ballPositionY.value += ballVelocityY.value
 
       // Detect collision with walls
-      if (ballX.value <= 0 || ballX.value >= windowDimensions.width - 20) {
-        velocityX.value = -velocityX.value
+      if (ballPositionX.value <= 0) {
+        ballVelocityX.value = -ballVelocityX.value
+        ballPositionX.value = bounceMargin
       }
-      if (ballY.value <= 0 || ballY.value >= windowDimensions.height - 20) {
-        velocityY.value = -velocityY.value
+      if (ballPositionX.value >= windowDimensions.width - ballSize) {
+        ballVelocityX.value = -ballVelocityX.value
+        ballPositionX.value = windowDimensions.width - ballSize - bounceMargin
+      }
+      // Detect collision with ceiling or floor
+      if (ballPositionY.value <= 0) {
+        ballVelocityY.value = -ballVelocityY.value
+        ballPositionY.value = bounceMargin
+      }
+      if (ballPositionY.value >= windowDimensions.height - ballSize) {
+        ballVelocityY.value = -ballVelocityY.value
+        ballPositionY.value = windowDimensions.height - ballSize - bounceMargin
       }
 
       // Detect collision with paddle
       if (
-        ballY.value + 20 >= paddleY.value && // Ball is at the paddle's vertical position
-        ballX.value + 20 >= paddleX.value && // Ball is within the paddle's horizontal bounds
-        ballX.value <= paddleX.value + 100
+        ballPositionY.value + 20 >= paddleY.value && // Ball is at the paddle's vertical position
+        ballPositionX.value + 20 >= paddleX.value && // Ball is within the paddle's horizontal bounds
+        ballPositionX.value <= paddleX.value + 100
       ) {
-        velocityY.value = -velocityY.value // Reverse vertical velocity
+        ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
+        ballPositionY.value = paddleY.value - ballSize
       }
     }, 16) // Approx. 60 FPS
 
@@ -68,7 +82,7 @@ const GameScreen: React.FC = (): React.ReactElement => {
       <GestureDetector gesture={gesture}>
         <GameCanvas>
           <LogoBitmapImage />
-          <Ball x={ballX} y={ballY} />
+          <Ball x={ballPositionX} y={ballPositionY} />
           <Paddle x={paddleX} y={paddleY} />
         </GameCanvas>
       </GestureDetector>
