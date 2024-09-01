@@ -71,7 +71,7 @@ const GameScreen: React.FC = (): React.ReactElement => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GestureDetector gesture={gesture}>
-        <GameCanvas>
+        <GameCanvas backgroundColor='#fcfcfc'>
           <LogoBitmapImage />
           <Ball x={ballPositionX} y={ballPositionY} />
           <Paddle x={paddleX} y={paddleY} />
