@@ -4,19 +4,19 @@ import { ImageSVG, Skia } from '@shopify/react-native-skia'
 interface PaddleProps extends Position {
 }
 
-export const paddleWidth = 180
+export const paddleWidth = 100
 export const paddleHeight = 30
 
 const svg = Skia.SVG.MakeFromString(
-  `<svg width="180" height="30" viewBox="0 0 180 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+  `<svg width="${paddleWidth}" height="${paddleHeight}" viewBox="0 0 ${paddleWidth} ${paddleHeight}" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_2779_426)">
-<rect width="180" height="30" rx="8" fill="#909090"/>
-<path d="M203 30H-24L203 0V30Z" fill="black" fill-opacity="0.4"/>
-<rect x="3" y="3" width="174" height="24" rx="6" fill="#B2B2B2"/>
+<rect width="${paddleWidth}" height="${paddleHeight}" rx="8" fill="#758AAA"/>
+<path d="M112.778 30H-13.3333L112.778 0V30Z" fill="black" fill-opacity="0.4"/>
+<rect x="3" y="3" width="${paddleWidth - 6}" height="${paddleHeight - 6}" rx="6" fill="#9FBADC"/>
 </g>
 <defs>
 <clipPath id="clip0_2779_426">
-<rect width="180" height="30" rx="8" fill="white"/>
+<rect width="${paddleWidth}" height="${paddleHeight}" rx="8" fill="white"/>
 </clipPath>
 </defs>
 </svg>`
