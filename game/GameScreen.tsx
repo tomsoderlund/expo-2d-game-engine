@@ -5,11 +5,13 @@ import { SharedValue, useSharedValue, withDecay } from 'react-native-reanimated'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 
 import { areCircleAndRectangleColliding } from '../lib/math'
+import useSound from '../hooks/useSound'
 import GameCanvas from '../components/GameCanvas'
 import Paddle, { paddleWidth, paddleHeight } from './Paddle'
 import Ball, { ballSize } from './Ball'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
+const bounceSound = require('../assets/sounds/bounce.mp3') // eslint-disable-line @typescript-eslint/no-var-requires
 
 const SCREEN_UPDATE_INTERVAL = Math.round(1000 / 60) // 60 FPS
 
@@ -32,6 +34,8 @@ const GameScreen: React.FC = (): React.ReactElement => {
         clamp: [leftBoundary, rightBoundary]
       })
     })
+
+  const playBounceSound = useSound(bounceSound)
 
   // Shared values for ball position and velocity
   const ballPositionX = useSharedValue(windowDimensions.width / 2)
@@ -62,6 +66,7 @@ const GameScreen: React.FC = (): React.ReactElement => {
       )) {
         ballPositionY.value = paddleY.value - ballSize - 5
         ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
+        void playBounceSound()
       }
     }, SCREEN_UPDATE_INTERVAL)
 
