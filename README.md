@@ -9,7 +9,7 @@ React Native 2D game engine built on Expo and Skia*:
 - react-native-gesture-handler: for gesture input
 - expo-av: for sound
 
-There is an old branch `old-expo-2d-context` that uses expo-2d-context/expo-gl.
+*There is an old branch `old-expo-2d-context` that uses expo-2d-context/expo-gl instead of Skia.
 
 ![expo-2d-game-engine demo on phone](docs/demo.gif)
 
