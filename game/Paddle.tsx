@@ -1,10 +1,7 @@
 import React from 'react'
-import { useWindowDimensions } from 'react-native'
 import { ImageSVG, Skia } from '@shopify/react-native-skia'
-import { SharedValue } from 'react-native-reanimated'
 
-interface PaddleProps {
-  x: SharedValue<number>
+interface PaddleProps extends Position {
 }
 
 export const paddleWidth = 180
@@ -16,13 +13,12 @@ const svg = Skia.SVG.MakeFromString(
 </svg>`
 )
 
-const Paddle: React.FC<PaddleProps> = ({ x }) => {
-  const windowDimensions = useWindowDimensions()
+const Paddle: React.FC<PaddleProps> = ({ x, y }) => {
   return (
     <ImageSVG
       svg={svg}
       x={x}
-      y={windowDimensions.height - 120}
+      y={y}
       width={paddleWidth}
       height={paddleHeight}
     />
