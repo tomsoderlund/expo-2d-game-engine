@@ -1,6 +1,6 @@
 import React from 'react'
 import { useWindowDimensions } from 'react-native'
-import { useCanvasRef, Image, useImage } from '@shopify/react-native-skia'
+import { Image, useImage } from '@shopify/react-native-skia'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 import {
   useSharedValue, withDecay
