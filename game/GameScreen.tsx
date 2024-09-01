@@ -30,22 +30,13 @@ const GameScreen: React.FC = (): React.ReactElement => {
       })
     })
 
-  const logoBitmapImage = useImage(logoImageRequire)
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GestureDetector gesture={gesture}>
         <GameCanvas>
           <Paddle x={translateX} />
           <ScaledSVG imageRequire={require('../assets/game/svg_guy.svg')} x={windowDimensions.width / 2} y={windowDimensions.height / 2} width={100} height={100} />
-          <Image
-            image={logoBitmapImage}
-            x={windowDimensions.width - 40 - 10}
-            y={10}
-            width={40}
-            height={40}
-            fit='contain'
-          />
+          <LogoBitmapImage />
         </GameCanvas>
       </GestureDetector>
     </GestureHandlerRootView>
@@ -53,3 +44,18 @@ const GameScreen: React.FC = (): React.ReactElement => {
 }
 
 export default GameScreen
+
+const LogoBitmapImage: React.FC = () => {
+  const windowDimensions = useWindowDimensions()
+  const logoBitmapImage = useImage(logoImageRequire)
+  return (
+    <Image
+      image={logoBitmapImage}
+      x={windowDimensions.width - 40 - 10}
+      y={10}
+      width={40}
+      height={40}
+      fit='contain'
+    />
+  )
+}
