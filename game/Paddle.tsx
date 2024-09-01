@@ -5,7 +5,7 @@ interface PaddleProps extends Position {
 }
 
 export const paddleWidth = 180
-const paddleHeight = 30
+export const paddleHeight = 30
 
 const svg = Skia.SVG.MakeFromString(
   `<svg width="180" height="30" viewBox="0 0 180 30" fill="none" xmlns="http://www.w3.org/2000/svg">

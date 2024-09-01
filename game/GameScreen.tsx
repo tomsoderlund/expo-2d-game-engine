@@ -4,8 +4,9 @@ import { Image, useImage } from '@shopify/react-native-skia'
 import { SharedValue, useSharedValue, withDecay } from 'react-native-reanimated'
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler'
 
+import { areCircleAndRectangleColliding } from '../lib/math'
 import GameCanvas from '../components/GameCanvas'
-import Paddle, { paddleWidth } from './Paddle'
+import Paddle, { paddleWidth, paddleHeight } from './Paddle'
 import Ball, { ballSize } from './Ball'
 
 const logoImageRequire = require('../assets/game/tomorroworld_logo.png') // eslint-disable-line @typescript-eslint/no-var-requires
@@ -48,13 +49,17 @@ const GameScreen: React.FC = (): React.ReactElement => {
       bounceWalls(ballPositionY, ballVelocityY, 0, windowDimensions.height - ballSize)
 
       // Detect collision with paddle
-      if (
-        ballPositionY.value + 20 >= paddleY.value && // Ball is at the paddle's vertical position
-        ballPositionX.value + 20 >= paddleX.value && // Ball is within the paddle's horizontal bounds
-        ballPositionX.value <= paddleX.value + 100
-      ) {
+      if (areCircleAndRectangleColliding(
+        ballPositionX.value + ballSize / 2,
+        ballPositionY.value + ballSize / 2,
+        ballSize / 2,
+        paddleX.value + paddleWidth / 2,
+        paddleY.value + paddleHeight / 2,
+        paddleWidth,
+        paddleHeight
+      )) {
+        ballPositionY.value = paddleY.value - ballSize - 5
         ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
-        ballPositionY.value = paddleY.value - ballSize
       }
     }, 16) // Approx. 60 FPS
 
@@ -77,11 +82,12 @@ const GameScreen: React.FC = (): React.ReactElement => {
 export default GameScreen
 
 function bounceWalls (position: SharedValue<number>, velocity: SharedValue<number>, minValue: number, maxValue: number, bounceMargin: number = 5): void {
-  // Detect collision with ceiling or floor
+  // Left side or ceiling
   if (position.value <= minValue) {
     position.value = minValue + bounceMargin
     velocity.value = -velocity.value
   }
+  // Right side or floor
   if (position.value >= maxValue) {
     position.value = maxValue - bounceMargin
     velocity.value = -velocity.value
