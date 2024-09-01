@@ -1,6 +1,6 @@
 # expo-2d-game-engine
 
-React Native 2D game engine built on Expo and Skia*:
+React Native 2D game engine built on Expo and [Skia](https://shopify.github.io/react-native-skia/)*:
 
 - react-native
 - expo
@@ -11,7 +11,7 @@ React Native 2D game engine built on Expo and Skia*:
 
 *There is an old branch `old-expo-2d-context` that uses expo-2d-context/expo-gl instead of Skia.
 
-![expo-2d-game-engine demo on phone](docs/demo.gif)
+<img alt="expo-2d-game-engine demo on phone" src="docs/demo.gif" style="border: 1px solid lightgray;" />
 
 ## How to use
 
