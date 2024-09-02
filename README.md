@@ -2,16 +2,23 @@
 
 React Native 2D game engine built on [Skia](https://shopify.github.io/react-native-skia/)* and Expo:
 
-- react-native
-- expo
-- react-native-skia: for graphics
-- react-native-reanimated: for animations
-- react-native-gesture-handler: for gesture input
-- expo-av: for sound
+- `react-native`
+- `expo`
+- `react-native-skia`: for graphics
+- `react-native-reanimated`: for animations
+- `react-native-gesture-handler`: for gesture input
+- `expo-av`: for sound
 
-*There is an old branch `old-expo-2d-context` that uses expo-2d-context/expo-gl instead of Skia.
+*There is an old branch `old-expo-2d-context` that uses `expo-2d-context`/`expo-gl` instead of Skia.
+
+## Features
 
 ![expo-2d-game-engine demo on phone](docs/demo.gif)
+
+- Graphics: SVG (inline and file-based) and bitmaps.
+- Sound: `useSound` hook to play MP3’s.
+- Math for collisions and vectors.
+- Declarative, component-based programming paradigm with functional components.
 
 ## How to use
 
