@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { Image, useImage } from '@shopify/react-native-skia'
 import { SharedValue, useSharedValue, withDecay } from 'react-native-reanimated'
@@ -9,8 +9,6 @@ import useSound from '../hooks/useSound'
 import GameCanvas from '../components/GameCanvas'
 import Paddle, { paddleWidth, paddleHeight } from './Paddle'
 import Ball, { ballSize } from './Ball'
-
-const SCREEN_UPDATE_INTERVAL = Math.round(1000 / 60) // 60 FPS
 
 const GameScreen: React.FC = (): React.ReactElement => {
   const windowDimensions = useWindowDimensions()
@@ -41,42 +39,61 @@ const GameScreen: React.FC = (): React.ReactElement => {
   const ballVelocityX = useSharedValue(-3)
   const ballVelocityY = useSharedValue(5)
 
+  // Inspired by @sergeymorkovkin: https://github.com/expo/expo/issues/11267#issuecomment-873630818
+  const frameHandle = useRef<number | null>()
+  const frameCounter = useRef<number>(0)
+  const frameTimer = useRef<number>(0) // Nr of seconds since January 1, 1970
+
+  const gameLoop = useCallback((time: number) => {
+    frameCounter.current += 1
+    frameTimer.current = time
+    console.log('frame #', frameCounter.current, 'time:', frameTimer.current)
+
+    // Update ball position
+    ballPositionX.value += ballVelocityX.value
+    ballPositionY.value += ballVelocityY.value
+
+    // Detect collision with walls
+    const didCollideSides = bounceWalls(ballPositionX, ballVelocityX, 0, windowDimensions.width - ballSize)
+    const didCollideCeiling = bounceWalls(ballPositionY, ballVelocityY, 0, windowDimensions.height - ballSize)
+
+    // Detect collision with paddle
+    const didCollidePaddle = areCircleAndRectangleColliding(
+      ballPositionX.value + ballSize / 2,
+      ballPositionY.value + ballSize / 2,
+      ballSize / 2,
+      paddleX.value,
+      paddleY.value,
+      paddleWidth,
+      paddleHeight
+    )
+
+    if (didCollidePaddle) {
+      ballPositionY.value = paddleY.value - ballSize - 5
+      ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
+    }
+
+    // Play sounds for collisions
+    if (didCollideSides || didCollideCeiling) {
+      void playBounceSound()
+    }
+    if (didCollidePaddle) {
+      void playBounceSound2()
+    }
+
+    // Request the next animation frame
+    frameHandle.current = requestAnimationFrame(gameLoop)
+  }, [windowDimensions.width, windowDimensions.height])
+
   useEffect(() => {
-    const gameLoop = setInterval(() => {
-      // Update ball position
-      ballPositionX.value += ballVelocityX.value
-      ballPositionY.value += ballVelocityY.value
-
-      // Detect collision with walls
-      const didCollideSides = bounceWalls(ballPositionX, ballVelocityX, 0, windowDimensions.width - ballSize)
-      // Detect collision with ceiling or floor
-      const didCollideCeiling = bounceWalls(ballPositionY, ballVelocityY, 0, windowDimensions.height - ballSize)
-
-      // Detect collision with paddle
-      const didCollidePaddle = areCircleAndRectangleColliding(
-        ballPositionX.value + ballSize / 2,
-        ballPositionY.value + ballSize / 2,
-        ballSize / 2,
-        paddleX.value,
-        paddleY.value,
-        paddleWidth,
-        paddleHeight
-      )
-      if (didCollidePaddle) {
-        ballPositionY.value = paddleY.value - ballSize - 5
-        ballVelocityY.value = -ballVelocityY.value // Reverse vertical velocity
+    frameHandle.current = requestAnimationFrame(gameLoop)
+    // Cleanup function to cancel the animation frame
+    return () => {
+      if (frameHandle.current !== undefined && frameHandle.current !== null) {
+        cancelAnimationFrame(frameHandle.current)
       }
-
-      if (didCollideSides || didCollideCeiling) {
-        void playBounceSound()
-      }
-      if (didCollidePaddle) {
-        void playBounceSound2()
-      }
-    }, SCREEN_UPDATE_INTERVAL)
-
-    return () => clearInterval(gameLoop)
-  }, [])
+    }
+  }, [gameLoop])
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
