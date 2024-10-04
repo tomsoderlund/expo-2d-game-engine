@@ -132,10 +132,10 @@ const LogoBitmapImage: React.FC = () => {
   return (
     <Image
       image={logoBitmapImage}
-      x={windowDimensions.width - 40 - 10}
-      y={10}
-      width={40}
-      height={40}
+      width={50}
+      height={50}
+      x={windowDimensions.width - 50 - 25}
+      y={25}
       fit='contain'
     />
   )
